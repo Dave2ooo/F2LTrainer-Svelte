@@ -8,6 +8,7 @@ import { CubieCube, SOLVED_FACELET, valuedArray } from '../core/mathlib';
 import { giikerutil, $ } from '../core/utils';
 import type { CubeModel } from '../core/types';
 import LZString from 'lz-string';
+import { bluetoothState } from '../store.svelte';
 
 const mathlib = {
 	CubieCube,
@@ -223,6 +224,7 @@ async function v2initKey(forcePrompt: boolean, isWrongKey: boolean, ver: number)
 		decoder = null;
 		throw new Error('MAC address required');
 	}
+	bluetoothState.setDeviceMac(mac);
 	v2initDecoder(mac, ver);
 }
 
@@ -424,6 +426,7 @@ function init(device: BluetoothDevice) {
 	}).then(function(mac: string) {
 		giikerutil.log('[gancube] init, found cube bluetooth hardware MAC = ' + mac);
 		deviceMac = mac;
+		bluetoothState.setDeviceMac(mac);
 	}, function(err: any) {
 		giikerutil.log('[gancube] init, unable to automatically determine cube MAC, error code = ' + err);
 	}).then(function() {

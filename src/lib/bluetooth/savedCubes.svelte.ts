@@ -4,7 +4,7 @@
  */
 
 export interface SavedCube {
-	id: string; // Bluetooth device ID (persistent)
+	macAddress: string; // MAC address (unique hardware identifier)
 	customName: string; // User-provided name
 	deviceName: string; // Original Bluetooth device name
 	dateAdded: number; // Timestamp when added
@@ -42,23 +42,24 @@ export const savedCubesState = {
 		return cubes;
 	},
 
-	addCube(deviceId: string, deviceName: string, customName?: string) {
+	addCube(macAddress: string, deviceName: string, customName?: string) {
 		const now = Date.now();
 		const newCube: SavedCube = {
-			id: deviceId,
+			macAddress: macAddress,
 			customName: customName || deviceName,
 			deviceName: deviceName,
 			dateAdded: now,
 			lastConnected: now
 		};
 
-		// Check if cube already exists
-		const existingIndex = cubes.findIndex(c => c.id === deviceId);
+		// Check if cube already exists by MAC address
+		const existingIndex = cubes.findIndex((c) => c.macAddress.toUpperCase() === macAddress.toUpperCase());
 		if (existingIndex >= 0) {
 			// Update existing cube
 			cubes[existingIndex] = {
 				...cubes[existingIndex],
 				customName: customName || cubes[existingIndex].customName,
+				deviceName: deviceName,
 				lastConnected: now
 			};
 		} else {
@@ -69,13 +70,13 @@ export const savedCubesState = {
 		saveCubesToStorage(cubes);
 	},
 
-	removeCube(deviceId: string) {
-		cubes = cubes.filter(c => c.id !== deviceId);
+	removeCube(macAddress: string) {
+		cubes = cubes.filter((c) => c.macAddress.toUpperCase() !== macAddress.toUpperCase());
 		saveCubesToStorage(cubes);
 	},
 
-	renameCube(deviceId: string, newName: string) {
-		const cube = cubes.find(c => c.id === deviceId);
+	renameCube(macAddress: string, newName: string) {
+		const cube = cubes.find((c) => c.macAddress.toUpperCase() === macAddress.toUpperCase());
 		if (cube) {
 			cube.customName = newName;
 			cubes = [...cubes]; // Trigger reactivity
@@ -83,8 +84,8 @@ export const savedCubesState = {
 		}
 	},
 
-	updateLastConnected(deviceId: string) {
-		const cube = cubes.find(c => c.id === deviceId);
+	updateLastConnected(macAddress: string) {
+		const cube = cubes.find((c) => c.macAddress.toUpperCase() === macAddress.toUpperCase());
 		if (cube) {
 			cube.lastConnected = Date.now();
 			cubes = [...cubes]; // Trigger reactivity
@@ -92,7 +93,7 @@ export const savedCubesState = {
 		}
 	},
 
-	getCube(deviceId: string): SavedCube | undefined {
-		return cubes.find(c => c.id === deviceId);
+	getCube(macAddress: string): SavedCube | undefined {
+		return cubes.find((c) => c.macAddress.toUpperCase() === macAddress.toUpperCase());
 	}
 };

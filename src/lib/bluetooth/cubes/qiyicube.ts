@@ -9,6 +9,7 @@ import { CubieCube, SOLVED_FACELET } from '../core/mathlib';
 import { giikerutil, $, DEBUGBL } from '../core/utils';
 import type { CubeModel } from '../core/types';
 import LZString from 'lz-string';
+import { bluetoothState } from '../store.svelte';
 
 let _gatt: BluetoothRemoteGATTServer | null = null;
 let _service: BluetoothRemoteGATTService | null = null;
@@ -35,6 +36,7 @@ async function initMac(forcePrompt: boolean, isWrongKey?: boolean) {
 	if (!deviceMac) {
 		throw new Error('MAC address required');
 	}
+	bluetoothState.setDeviceMac(deviceMac);
 }
 
 function crc16modbus(data: number[]): number {
@@ -119,6 +121,7 @@ function init(device: BluetoothDevice): Promise<void> {
 	}).then(function (mac: string) {
 		giikerutil.log('[qiyicube] init, found cube bluetooth hardware MAC = ' + mac);
 		deviceMac = mac;
+		bluetoothState.setDeviceMac(mac);
 	}, function (err: any) {
 		giikerutil.log('[qiyicube] init, unable to automatically determine cube MAC, error code = ' + err);
 	}).then(function () {
