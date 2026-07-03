@@ -254,7 +254,8 @@
 							<div class="mb-2 flex items-center justify-between">
 								<div class="flex items-center gap-2">
 									<RadioDot selected={settings.caseMode === 'individual'} />
-									<span class="font-medium text-gray-900 dark:text-white">Individual Selection</span>
+									<span class="font-medium text-gray-900 dark:text-white">Individual Selection</span
+									>
 								</div>
 								{#if settings.caseMode === 'individual'}
 									<span class="text-sm text-gray-500 dark:text-gray-400">
