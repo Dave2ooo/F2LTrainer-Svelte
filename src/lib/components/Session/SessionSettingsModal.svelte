@@ -186,7 +186,10 @@
 					content: 'p-0 bg-gray-50 rounded-lg dark:bg-gray-800 mt-0'
 				}}
 			>
-				<TabItem key="selection" title="Selection">
+				<TabItem key="selection">
+					{#snippet titleSlot()}
+						<span class="text-sm font-bold md:text-base">Selection</span>
+					{/snippet}
 					<div class="mt-4 flex flex-col gap-4">
 						<!-- Group Selection Card -->
 						<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -281,7 +284,10 @@
 					</div>
 				</TabItem>
 
-				<TabItem key="training" title="Training">
+				<TabItem key="training">
+					{#snippet titleSlot()}
+						<span class="text-sm font-bold md:text-base">Training</span>
+					{/snippet}
 					<div class="mt-4 flex flex-col gap-4">
 						<!-- Training Activity Section -->
 						<div class="flex flex-col gap-4">
@@ -668,7 +674,10 @@
 					</div>
 				</TabItem>
 
-				<TabItem key="appearance" title="Appearance">
+				<TabItem key="appearance">
+					{#snippet titleSlot()}
+						<span class="text-sm font-bold md:text-base">Appearance</span>
+					{/snippet}
 					<div class="mt-4 flex flex-col gap-4">
 						<!-- Cube Appearance Section -->
 						<div class="flex flex-col gap-4">
