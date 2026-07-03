@@ -14,6 +14,8 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import RadioDot from '$lib/components/RadioDot.svelte';
 	import { sessionState, DEFAULT_SETTINGS } from '$lib/sessionState.svelte';
+	import { casesState } from '$lib/casesState.svelte';
+	import { getNumberOfSelectedCases } from '$lib/trainCaseQueue.svelte';
 	import {
 		globalState,
 		DEFAULT_EO_ORIENTED_COLOR,
@@ -110,6 +112,12 @@
 		globalState.eoOrientedColor !== DEFAULT_EO_ORIENTED_COLOR ||
 			globalState.eoUnorientedColor !== DEFAULT_EO_UNORIENTED_COLOR
 	);
+
+	let totalSelectedCases = $derived.by(() => {
+		if (!settings) return 0;
+		return getNumberOfSelectedCases(settings);
+	});
+
 	// Track selected settings tab (local state synced to globalState)
 	let selectedSettingsTab: SessionSettingsTab = $state(globalState.sessionSettingsTab);
 
@@ -189,9 +197,16 @@
 								: 'selectable-card-inactive'}"
 							onclick={() => (settings.caseMode = 'group')}
 						>
-							<div class="mb-2 flex items-center gap-2">
-								<RadioDot selected={settings.caseMode === 'group'} />
-								<span class="font-medium text-gray-900 dark:text-white">Group Selection</span>
+							<div class="mb-2 flex items-center justify-between">
+								<div class="flex items-center gap-2">
+									<RadioDot selected={settings.caseMode === 'group'} />
+									<span class="font-medium text-gray-900 dark:text-white">Group Selection</span>
+								</div>
+								{#if settings.caseMode === 'group'}
+									<span class="text-sm text-gray-500 dark:text-gray-400">
+										{totalSelectedCases} cases selected
+									</span>
+								{/if}
 							</div>
 
 							{#if settings.caseMode === 'group'}
@@ -236,9 +251,16 @@
 								: 'selectable-card-inactive'}"
 							onclick={() => (settings.caseMode = 'individual')}
 						>
-							<div class="mb-2 flex items-center gap-2">
-								<RadioDot selected={settings.caseMode === 'individual'} />
-								<span class="font-medium text-gray-900 dark:text-white">Individual Selection</span>
+							<div class="mb-2 flex items-center justify-between">
+								<div class="flex items-center gap-2">
+									<RadioDot selected={settings.caseMode === 'individual'} />
+									<span class="font-medium text-gray-900 dark:text-white">Individual Selection</span>
+								</div>
+								{#if settings.caseMode === 'individual'}
+									<span class="text-sm text-gray-500 dark:text-gray-400">
+										{totalSelectedCases} cases selected
+									</span>
+								{/if}
 							</div>
 
 							{#if settings.caseMode === 'individual'}
