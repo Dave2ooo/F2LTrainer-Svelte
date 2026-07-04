@@ -77,15 +77,10 @@
 	}
 
 	// Find the most recent unsolved case in the queue
-	const mostRecentUnsolvedCase = $derived(() => {
-		// Go through the queue from current index forward to find first unsolved
-		for (let i = trainState.index; i < trainCaseQueue.length; i++) {
-			if (trainCaseQueue[i].solveId === undefined) {
-				return trainCaseQueue[i];
-			}
-		}
-		return undefined;
-	});
+	const mostRecentUnsolvedCase = $derived(
+		// Find the last unsolved case in the queue (the true active edge)
+		trainCaseQueue.findLast((c) => c.solveId === undefined)
+	);
 
 	// Create a unified list for animation purposes
 	// Each item has a unique key and can be either unsolved or a solve
@@ -95,11 +90,11 @@
 		solve?: Solve;
 	};
 
-	const listItems = $derived(() => {
+	const listItems = $derived.by(() => {
 		const items: ListItem[] = [];
 
 		// Add unsolved case at the top if it exists
-		if (mostRecentUnsolvedCase()) {
+		if (mostRecentUnsolvedCase) {
 			items.push({
 				key: 'unsolved',
 				type: 'unsolved'
@@ -133,6 +128,15 @@
 		// Open the modal
 		if (activeModal) {
 			activeModal.openModal();
+		}
+	}
+
+	function isItemSelected(item: ListItem, currentCase: typeof trainState.current) {
+		if (!currentCase) return false;
+		if (item.type === 'unsolved') {
+			return currentCase.solveId === undefined;
+		} else {
+			return currentCase.solveId === item.solve?.id;
 		}
 	}
 
@@ -229,7 +233,7 @@
 	<!-- Solves Header -->
 	<div class="mb-2 flex items-center gap-3">
 		<h3 class="text-xl font-semibold text-gray-900 md:text-2xl dark:text-white">Session History</h3>
-		{#if listItems().some((i) => i.type === 'solved')}
+		{#if listItems.some((i) => i.type === 'solved')}
 			<Button
 				color="red"
 				outline
@@ -243,22 +247,18 @@
 	</div>
 
 	<div class="flex-1 overflow-y-auto">
-		{#if listItems().length === 0}
+		{#if listItems.length === 0}
 			<P class="text-gray-500">No solves recorded yet.</P>
 		{:else}
 			<ul class="space-y-2">
-				{#each listItems() as item (item.key)}
+				{#each listItems as item (item.key)}
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
 					<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 					<li
 						class="solve-entry group relative cursor-pointer rounded-lg border p-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800
-						{item.type === 'unsolved'
-							? trainState.current === mostRecentUnsolvedCase()
-								? 'border-primary-500 selected bg-primary-50 dark:border-primary-400 dark:bg-primary-900/20'
-								: 'border-gray-200 dark:border-gray-700'
-							: trainState.current?.solveId === item.solve?.id
-								? 'border-primary-500 selected bg-primary-50 dark:border-primary-400 dark:bg-primary-900/20'
-								: 'border-gray-200 dark:border-gray-700'}"
+						{isItemSelected(item, trainState.current)
+							? 'border-primary-500 selected bg-primary-50 dark:border-primary-400 dark:bg-primary-900/20'
+							: 'border-gray-200 dark:border-gray-700'}"
 						onclick={item.type === 'unsolved'
 							? jumpToFirstUnsolved
 							: () => jumpToSolve(item.solve!.id)}
@@ -270,7 +270,7 @@
 						<div class="flex w-full items-center justify-between gap-4">
 							<div class="flex flex-1 flex-col">
 								{#if item.type === 'unsolved'}
-									{@const unsolvedCase = mostRecentUnsolvedCase()!}
+									{@const unsolvedCase = mostRecentUnsolvedCase!}
 									<span class="font-medium text-gray-900 dark:text-white">
 										{getGroupDisplayName(unsolvedCase.groupId)}
 										#{getCaseName(casesStatic[unsolvedCase.groupId][unsolvedCase.caseId])}
@@ -284,7 +284,7 @@
 							</div>
 							<div class="flex shrink-0 items-center gap-4">
 								{#if item.type === 'unsolved'}
-									{@const unsolvedCase = mostRecentUnsolvedCase()!}
+									{@const unsolvedCase = mostRecentUnsolvedCase!}
 									<span
 										role="button"
 										tabindex="0"

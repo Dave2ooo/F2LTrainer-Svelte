@@ -256,7 +256,9 @@ export function jumpToSolve(solveId: string) {
 export function jumpToFirstUnsolved() {
 	trainState.forceStopTimer++;
 
-	const index = trainCaseQueue.findIndex((c) => c.solveId === undefined);
+	// Find the LAST unsolved case in the queue (the true active edge)
+	// Using findIndex would jump back to previously skipped cases
+	const index = trainCaseQueue.findLastIndex((c) => c.solveId === undefined);
 	if (index !== -1) {
 		trainState.index = index;
 		trainState.current = trainCaseQueue[index];
