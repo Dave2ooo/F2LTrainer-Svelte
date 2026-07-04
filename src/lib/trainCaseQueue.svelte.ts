@@ -45,11 +45,13 @@ export const trainState: {
 	current: TrainCase | undefined;
 	lastDisplayedTime: number | undefined;
 	recapBatchSize: number; // Track initial batch size for recap mode progress
+	forceStopTimer: number;
 } = $state({
 	index: 0,
 	current: createInitialTrainCase(),
 	lastDisplayedTime: undefined,
-	recapBatchSize: 0
+	recapBatchSize: 0,
+	forceStopTimer: 0
 });
 
 export function regenerateTrainCaseQueue(): number {
@@ -145,6 +147,8 @@ export function advanceToPreviousTrainCase() {
 }
 
 export function jumpToSolve(solveId: string) {
+	trainState.forceStopTimer++;
+
 	// 1. Check if the solve is already in the queue
 	const queueIndex = trainCaseQueue.findIndex((c) => c.solveId === solveId);
 	if (queueIndex !== -1) {
@@ -251,6 +255,8 @@ export function jumpToSolve(solveId: string) {
 }
 
 export function jumpToFirstUnsolved() {
+	trainState.forceStopTimer++;
+
 	const index = trainCaseQueue.findIndex((c) => c.solveId === undefined);
 	if (index !== -1) {
 		trainState.index = index;

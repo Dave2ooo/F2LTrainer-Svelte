@@ -194,6 +194,7 @@
 
 	// Parse algorithm and reset progress tracking when algorithm changes
 	$effect(() => {
+		void trainState.forceStopTimer; // Trigger on external navigation
 		if (displayAlg) {
 			// Use untrack to prevent infinite loops when modifying reactive state
 			untrack(() => {
@@ -210,6 +211,13 @@
 				validationFeedback = 'neutral';
 				cumulativeRotation = ''; // Reset cumulative rotation
 				undoMoves = []; // Reset undo moves
+				
+				if (smartTimerRef?.getIsRunning()) {
+					smartTimerRef.stopTimer();
+					smartTimerRef.resetTimer();
+				}
+				timerStarted = false;
+				twistyPlayerRef?.reset();
 			});
 		} else {
 			untrack(() => {
@@ -219,6 +227,13 @@
 				validationFeedback = 'neutral';
 				cumulativeRotation = '';
 				undoMoves = [];
+				
+				if (smartTimerRef?.getIsRunning()) {
+					smartTimerRef.stopTimer();
+					smartTimerRef.resetTimer();
+				}
+				timerStarted = false;
+				twistyPlayerRef?.reset();
 			});
 		}
 	});

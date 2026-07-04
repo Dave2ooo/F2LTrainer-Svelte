@@ -19,15 +19,17 @@
 	// Reset drill when session changes
 	import { untrack } from 'svelte';
 
-	// Reset drill when session changes
+	// Reset drill when session changes or forceStopTimer is triggered
 	$effect(() => {
 		// Just accessing the ID tracks it
 		const _ = sessionState.activeSessionId;
+		void trainState.forceStopTimer;
 		untrack(() => {
 			// Reset to stopped state
 			drillPhase = 'stopped';
 			drillTimerRef?.reset();
 			alg = '';
+			twistyPlayerRef?.reset();
 		});
 	});
 	import {

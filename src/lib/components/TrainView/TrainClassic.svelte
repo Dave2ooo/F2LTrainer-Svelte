@@ -7,7 +7,7 @@
 		getNumberOfSelectedCases,
 		trainState
 	} from '$lib/trainCaseQueue.svelte';
-	import { tick, onMount } from 'svelte';
+	import { tick, untrack, onMount, onDestroy } from 'svelte';
 	import { casesState } from '$lib/casesState.svelte';
 	import { statisticsState } from '$lib/statisticsState.svelte';
 	import { sessionState, DEFAULT_SETTINGS } from '$lib/sessionState.svelte';
@@ -39,7 +39,13 @@
 	let alg = $state('');
 
 	$effect(() => {
-		// Provide a visual hint update or similar if needed, or just keep empty if logic was removed
+		void trainState.forceStopTimer;
+		untrack(() => {
+			if (timerRef?.getIsRunning()) {
+				timerRef.stopTimer();
+				timerRef.resetTimer();
+			}
+		});
 	});
 
 	// Create hint manager instance

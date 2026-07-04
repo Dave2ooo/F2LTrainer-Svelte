@@ -173,23 +173,28 @@
 
 	// Reset state when case changes
 	$effect(() => {
-		if (currentTrainCase && currentTrainCase.solveId === undefined) {
-			untrack(() => {
-				phase = 'scrambling';
-				moveBuffer = [];
-				currentMoveIndex = 0;
-				validationFeedback = 'neutral';
-				cumulativeRotation = '';
-				undoMoves = [];
-				movesAdded = '';
-				caseHasRotation = false;
-				showRotationWarning = false;
-				showTargetSolvedCheck = false;
-				if (checkTimeoutId) clearTimeout(checkTimeoutId);
-				drillTimerRef?.reset();
-				twistyPlayerRef?.reset();
-			});
-		}
+		// Trigger reset on explicit history navigation
+		void trainState.forceStopTimer;
+		
+		// Trigger on regular case navigation
+		const isUnsolved = currentTrainCase && currentTrainCase.solveId === undefined;
+		void isUnsolved;
+
+		untrack(() => {
+			phase = 'scrambling';
+			moveBuffer = [];
+			currentMoveIndex = 0;
+			validationFeedback = 'neutral';
+			cumulativeRotation = '';
+			undoMoves = [];
+			movesAdded = '';
+			caseHasRotation = false;
+			showRotationWarning = false;
+			showTargetSolvedCheck = false;
+			if (checkTimeoutId) clearTimeout(checkTimeoutId);
+			drillTimerRef?.reset();
+			twistyPlayerRef?.reset();
+		});
 	});
 
 	$effect(() => {
