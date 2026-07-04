@@ -232,25 +232,24 @@ export function jumpToSolve(solveId: string) {
 		trainState.current = trainCaseQueue[0];
 		trainState.lastDisplayedTime = undefined;
 	} else {
-		// The target solve is "newer" than the head? This shouldn't happen if we only jump backwards in history
-		// unless the queue is somehow "behind" the latest stats (e.g. after a refresh?).
-		// Or if we are jumping "forward" in history (which is just navigating the queue usually).
-		// If it's not in the queue but is in statistics and is newer than head... that implies head is old history.
-		// But we checked "if in queue" first.
-		// If we are deep in history, say queue is [Solve(100), Solve(101)], and we jump to Solve(105).
-		// Solve(105) should be in the queue if we navigated there?
-		// Not necessarily if we cleared the queue or something.
-		// But `trainCaseQueue` usually holds the "future" or "current session".
-		// If we are browsing history, we are prepending.
-		// So if we are at Solve(100) and want to go to Solve(105), it implies Solve(105) IS in the queue (at a higher index).
-		// But we checked `findIndex` in queue.
-
-		// If it's not in queue, but is newer than head... maybe we popped it off?
-		// Or maybe we are in a state where queue only has old stuff?
-		// Let's assume for now we just handle the "back in time" case which is the primary use case.
+		// The target solve is "newer" than the head but not in queue.
+		// This can happen if a history case in the queue was re-solved (its solveId was overwritten),
+		// so the original history solve is no longer in the queue.
+		// We can gracefully handle this by just loading the single solve and prepending it.
 		console.warn(
-			'Target solve seems to be newer than queue head but not in queue. This is unexpected for history navigation.'
+			'Target solve seems to be newer than queue head but not in queue. Prepending single solve.'
 		);
+		const solve = statisticsState.statistics[solveIndex];
+		const newCase = TrainCase.fromSolve(
+			solve,
+			(sessionState.activeSession?.settings.crossColor || DEFAULT_SETTINGS.crossColor) as any,
+			(sessionState.activeSession?.settings.frontColor || DEFAULT_SETTINGS.frontColor) as any
+		);
+
+		trainCaseQueue.unshift(newCase);
+		trainState.index = 0;
+		trainState.current = trainCaseQueue[0];
+		trainState.lastDisplayedTime = undefined;
 	}
 }
 

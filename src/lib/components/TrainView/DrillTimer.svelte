@@ -5,8 +5,9 @@
 	interface Props {
 		initialRecognitionTime?: number | null; // in centiseconds
 		initialExecutionTime?: number | null; // in centiseconds
+		initialTotalTime?: number | null; // in centiseconds
 	}
-	let { initialRecognitionTime, initialExecutionTime }: Props = $props();
+	let { initialRecognitionTime, initialExecutionTime, initialTotalTime }: Props = $props();
 
 	// Timer phases
 	type Phase = 'idle' | 'recognition' | 'execution' | 'stopped';
@@ -41,7 +42,13 @@
 
 	let formattedRecognitionTime = $derived(formatTime(recognitionCentiseconds));
 	let formattedExecutionTime = $derived(formatTime(executionCentiseconds));
-	let formattedTotalTime = $derived(formatTime(recognitionCentiseconds + executionCentiseconds));
+	let displayTotalCentiseconds = $derived.by(() => {
+		if ((phase === 'idle' || phase === 'stopped') && recognitionCentiseconds === 0 && executionCentiseconds === 0 && initialTotalTime != null) {
+			return initialTotalTime;
+		}
+		return recognitionCentiseconds + executionCentiseconds;
+	});
+	let formattedTotalTime = $derived(formatTime(displayTotalCentiseconds));
 
 	function updateTimer() {
 		const now = Date.now();
@@ -123,8 +130,8 @@
 	 */
 	export function reset() {
 		phase = 'idle';
-		recognitionCentiseconds = 0;
-		executionCentiseconds = 0;
+		recognitionCentiseconds = initialRecognitionTime ?? 0;
+		executionCentiseconds = initialExecutionTime ?? 0;
 
 		if (animationFrameId !== null) {
 			cancelAnimationFrame(animationFrameId);

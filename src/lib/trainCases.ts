@@ -204,6 +204,8 @@ export default class TrainCase {
 	#solved: boolean = false;
 	#time: number | null | undefined = undefined;
 	#solveId: string | undefined = undefined;
+	#recognitionTime: number | undefined = undefined;
+	#executionTime: number | undefined = undefined;
 
 	constructor(
 		groupId: GroupId,
@@ -216,6 +218,8 @@ export default class TrainCase {
 			auf?: Auf;
 			solveId?: string;
 			time?: number | null;
+			recognitionTime?: number;
+			executionTime?: number;
 		}
 	) {
 		this.#groupId = groupId;
@@ -248,6 +252,14 @@ export default class TrainCase {
 			this.#time = options.time;
 		}
 
+		if (options?.recognitionTime !== undefined) {
+			this.#recognitionTime = options.recognitionTime;
+		}
+
+		if (options?.executionTime !== undefined) {
+			this.#executionTime = options.executionTime;
+		}
+
 		this.setCrossAndFrontColor(crossColors, frontColors);
 	}
 
@@ -260,7 +272,9 @@ export default class TrainCase {
 			scrambleSelection: solve.scrambleSelection,
 			auf: solve.auf,
 			solveId: solve.id,
-			time: solve.time // Time is already in centiseconds, no conversion needed
+			time: solve.time, // Time is already in centiseconds, no conversion needed
+			recognitionTime: solve.recognitionTime,
+			executionTime: solve.executionTime
 		});
 	}
 
@@ -353,5 +367,17 @@ export default class TrainCase {
 	}
 	set solveId(value: string | undefined) {
 		this.#solveId = value;
+	}
+	get recognitionTime() {
+		return this.#recognitionTime;
+	}
+	set recognitionTime(value: number | undefined) {
+		this.#recognitionTime = value;
+	}
+	get executionTime() {
+		return this.#executionTime;
+	}
+	set executionTime(value: number | undefined) {
+		this.#executionTime = value;
 	}
 }

@@ -233,6 +233,8 @@
 
 			const solveId = crypto.randomUUID();
 			currentTrainCase.time = totalTime;
+			currentTrainCase.recognitionTime = recognitionTime;
+			currentTrainCase.executionTime = executionTime;
 			currentTrainCase.solveId = solveId;
 			trainState.lastDisplayedTime = totalTime;
 
@@ -520,14 +522,18 @@
 		{/if}
 	</div>
 
-	<!-- Drill Timer -->
 	<div
 		class="mt-2"
 		class:hidden={!(
 			sessionState.activeSession?.settings.trainShowTimer ?? DEFAULT_SETTINGS.trainShowTimer
 		)}
 	>
-		<DrillTimer bind:this={drillTimerRef} />
+		<DrillTimer 
+			bind:this={drillTimerRef} 
+			initialRecognitionTime={currentTrainCase?.recognitionTime}
+			initialExecutionTime={currentTrainCase?.executionTime}
+			initialTotalTime={currentTrainCase?.time}
+		/>
 	</div>
 	<RecapProgress />
 

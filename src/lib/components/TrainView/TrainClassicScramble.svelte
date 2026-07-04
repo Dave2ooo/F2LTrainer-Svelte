@@ -793,6 +793,8 @@
 						if (currentTrainCase) {
 							const totalTime = recognitionTime + executionTime;
 							currentTrainCase.time = totalTime;
+							currentTrainCase.recognitionTime = recognitionTime;
+							currentTrainCase.executionTime = executionTime;
 							currentTrainCase.solveId = crypto.randomUUID();
 
 							trainState.lastDisplayedTime = totalTime;
@@ -849,7 +851,12 @@
 				sessionState.activeSession?.settings.trainShowTimer ?? DEFAULT_SETTINGS.trainShowTimer
 			)}
 		>
-			<DrillTimer bind:this={drillTimerRef} />
+			<DrillTimer 
+				bind:this={drillTimerRef}
+				initialRecognitionTime={currentTrainCase?.recognitionTime}
+				initialExecutionTime={currentTrainCase?.executionTime}
+				initialTotalTime={currentTrainCase?.time}
+			/>
 		</div>
 
 		{#if (sessionState.activeSession?.settings.trainHintAlgorithm ?? DEFAULT_SETTINGS.trainHintAlgorithm) !== 'hidden'}
