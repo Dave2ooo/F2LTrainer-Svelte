@@ -299,6 +299,10 @@
 
 		await tick();
 
+		// Manually reset the TwistyPlayer after the DOM has updated to the new case
+		// This clears dynamically added moves seamlessly without flashing the old case
+		twistyPlayerRef?.reset();
+
 		// If jumping to history edge, the global effect might have forced drillPhase to 'gave_up'. Force it back.
 		if (withCountdown && drillPhase !== 'countdown') {
 			drillPhase = 'countdown';

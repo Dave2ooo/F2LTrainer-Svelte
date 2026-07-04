@@ -184,11 +184,7 @@
 			// Use setTimeout to ensure the TwistyPlayer has processed the prop changes
 			setTimeout(() => {
 				const player = el as any;
-				// Explicitly reset properties to ensure any added moves are cleared
 				if (player) {
-					player.alg = alg || '';
-					player.experimentalSetupAlg = [setupRotation, scramble].join(' ');
-					jumpToStart();
 					resetView();
 					// Recolor after reset completes to ensure scene is stable
 					applyEOColorIfNeeded();
