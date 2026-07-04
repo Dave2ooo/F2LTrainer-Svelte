@@ -26,7 +26,7 @@
 		void trainState.forceStopTimer;
 		untrack(() => {
 			// Reset to stopped state
-			drillPhase = 'stopped';
+			drillPhase = 'gave_up';
 			drillTimerRef?.reset();
 			alg = '';
 			twistyPlayerRef?.reset();
