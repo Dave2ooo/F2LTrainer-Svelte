@@ -3,6 +3,7 @@
 	import TwistyPlayer from '../TwistyPlayer.svelte';
 	import {
 		advanceToNextTrainCase,
+		jumpToFirstUnsolved,
 		getNumberOfSelectedCases,
 		trainState
 	} from '$lib/trainCaseQueue.svelte';
@@ -281,18 +282,27 @@
 		await goToNextCase();
 	}
 
-	async function goToNextCase(withCountdown: boolean = false) {
+	async function goToNextCase(withCountdown: boolean = false, jumpToActiveEdge: boolean = false) {
+		if (jumpToActiveEdge) {
+			jumpToFirstUnsolved();
+		} else {
+			advanceToNextTrainCase();
+		}
+
+		// Reset state for new case
+		resetCaseState();
+		
 		if (withCountdown) {
 			drillPhase = 'countdown';
 			countdownNumber = 3;
 		}
 
-		advanceToNextTrainCase();
-
-		// Reset state for new case
-		resetCaseState();
-
 		await tick();
+
+		// If jumping to history edge, the global effect might have forced drillPhase to 'gave_up'. Force it back.
+		if (withCountdown && drillPhase !== 'countdown') {
+			drillPhase = 'countdown';
+		}
 
 		if (withCountdown) {
 			for (let i = 3; i >= 1; i--) {
@@ -383,10 +393,11 @@
 	}
 
 	/**
-	 * Resume with next case after giving up
+	 * Resume with next case after giving up, or jump to the active edge if viewing history
 	 */
 	async function onResume() {
-		await goToNextCase(true);
+		const isHistoryCase = currentTrainCase && currentTrainCase.solveId !== undefined;
+		await goToNextCase(true, isHistoryCase);
 	}
 
 	/**
