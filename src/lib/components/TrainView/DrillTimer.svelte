@@ -43,7 +43,12 @@
 	let formattedRecognitionTime = $derived(formatTime(recognitionCentiseconds));
 	let formattedExecutionTime = $derived(formatTime(executionCentiseconds));
 	let displayTotalCentiseconds = $derived.by(() => {
-		if ((phase === 'idle' || phase === 'stopped') && recognitionCentiseconds === 0 && executionCentiseconds === 0 && initialTotalTime != null) {
+		if (
+			(phase === 'idle' || phase === 'stopped') &&
+			recognitionCentiseconds === 0 &&
+			executionCentiseconds === 0 &&
+			initialTotalTime != null
+		) {
 			return initialTotalTime;
 		}
 		return recognitionCentiseconds + executionCentiseconds;

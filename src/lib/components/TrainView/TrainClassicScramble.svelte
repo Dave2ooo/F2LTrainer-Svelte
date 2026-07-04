@@ -175,7 +175,7 @@
 	$effect(() => {
 		// Trigger reset on explicit history navigation
 		void trainState.forceStopTimer;
-		
+
 		// Trigger on regular case navigation
 		const isUnsolved = currentTrainCase && currentTrainCase.solveId === undefined;
 		void isUnsolved;
@@ -851,7 +851,7 @@
 				sessionState.activeSession?.settings.trainShowTimer ?? DEFAULT_SETTINGS.trainShowTimer
 			)}
 		>
-			<DrillTimer 
+			<DrillTimer
 				bind:this={drillTimerRef}
 				initialRecognitionTime={currentTrainCase?.recognitionTime}
 				initialExecutionTime={currentTrainCase?.executionTime}

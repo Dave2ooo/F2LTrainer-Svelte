@@ -291,7 +291,7 @@
 
 		// Reset state for new case
 		resetCaseState();
-		
+
 		if (withCountdown) {
 			drillPhase = 'countdown';
 			countdownNumber = 3;
@@ -543,8 +543,8 @@
 			sessionState.activeSession?.settings.trainShowTimer ?? DEFAULT_SETTINGS.trainShowTimer
 		)}
 	>
-		<DrillTimer 
-			bind:this={drillTimerRef} 
+		<DrillTimer
+			bind:this={drillTimerRef}
 			initialRecognitionTime={currentTrainCase?.recognitionTime}
 			initialExecutionTime={currentTrainCase?.executionTime}
 			initialTotalTime={currentTrainCase?.time}

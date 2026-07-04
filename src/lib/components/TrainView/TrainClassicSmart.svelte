@@ -211,7 +211,7 @@
 				validationFeedback = 'neutral';
 				cumulativeRotation = ''; // Reset cumulative rotation
 				undoMoves = []; // Reset undo moves
-				
+
 				if (smartTimerRef?.getIsRunning()) {
 					smartTimerRef.stopTimer();
 					smartTimerRef.resetTimer();
@@ -227,7 +227,7 @@
 				validationFeedback = 'neutral';
 				cumulativeRotation = '';
 				undoMoves = [];
-				
+
 				if (smartTimerRef?.getIsRunning()) {
 					smartTimerRef.stopTimer();
 					smartTimerRef.resetTimer();
