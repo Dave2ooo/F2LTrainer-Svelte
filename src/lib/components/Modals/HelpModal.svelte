@@ -118,7 +118,6 @@
 								Press <kbd class="kbd">→</kbd> to reveal the algorithm
 							</li>
 							<li>Use arrow buttons or click the cube to navigate cases</li>
-							<li>Timer can be disabled in session settings for pressure-free practice</li>
 						</ul>
 					</div>
 
@@ -130,14 +129,30 @@
 							<Bluetooth class="size-3.5 text-blue-500" />
 						</div>
 						<p>
-							Similar to Standard Practice, but with smart cube integration. The cube automatically
-							tracks your moves and displays them in real-time — no manual scrambling needed!
+							The cube automatically tracks your moves and displays them in real-time — no manual
+							scrambling needed!
 						</p>
 						<ul class="mt-2 list-inside list-disc space-y-1 pl-2 text-gray-500 dark:text-gray-400">
 							<li>Requires a connected smart cube</li>
 							<li>Real-time move tracking on the 3D cube</li>
 							<li>No need to scramble manually — just follow along</li>
 							<li>Great for learning new algorithms with guided feedback</li>
+						</ul>
+					</div>
+
+					<!-- Scramble Smart Cube -->
+					<div class="rounded-lg border border-gray-200 px-3 py-1 dark:border-gray-600">
+						<div class="mb-2 flex items-center gap-2">
+							<Shuffle class="size-4 text-orange-500" />
+							<span class="font-semibold">Scramble Smart Cube</span>
+							<Bluetooth class="size-3.5 text-blue-500" />
+						</div>
+						<p>Similar to Standard Practice, but with the benefits of your smart cube.</p>
+						<ul class="mt-2 list-inside list-disc space-y-1 pl-2 text-gray-500 dark:text-gray-400">
+							<li>Requires a connected smart cube</li>
+							<li>Practice recognizing cases directly on your physical cube</li>
+							<li>The trainer guides you through the scramble and highlights mistakes</li>
+							<li>The timer automatically tracks recognition and execution times</li>
 						</ul>
 					</div>
 
