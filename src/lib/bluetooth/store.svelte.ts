@@ -25,6 +25,9 @@ const macAddressRequest = $state({
 	resolve: null as ((mac: string | undefined) => void) | null
 });
 
+let rawQuaternion = { x: 0, y: 0, z: 0, w: 1 };
+let gyroSupported = $state<boolean | null>(null);
+
 let history = $state([] as { move: string; counter: number }[]);
 
 // Move subscribers map (id -> { callback, priority })
@@ -92,6 +95,18 @@ export const bluetoothState = {
 	},
 	setStatusMessage(msg: string | null) {
 		statusMessage = msg;
+	},
+	get rawQuaternion() {
+		return rawQuaternion;
+	},
+	setRawQuaternion(quat: { x: number; y: number; z: number; w: number }) {
+		rawQuaternion = quat;
+	},
+	get gyroSupported() {
+		return gyroSupported;
+	},
+	setGyroSupported(supported: boolean | null) {
+		gyroSupported = supported;
 	},
 	// MAC Address Request Handling
 	requestMacAddress(

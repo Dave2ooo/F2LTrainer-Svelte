@@ -24,6 +24,9 @@
 		getEODisplayColor,
 		recolorMysteryEdge
 	} from '$lib/utils/edgeOrientationDisplay';
+	import { sessionState } from '$lib/sessionState.svelte';
+	import { bluetoothState } from '$lib/bluetooth/store.svelte';
+	import * as THREE from 'three';
 
 	interface Props {
 		groupId?: GroupId;
@@ -340,8 +343,65 @@
 	}
 
 	// Register the custom element only on the client (avoids SSR issues)
+	let animationFrameId: number | null = null;
+	let gyroBasis: THREE.Quaternion | null = null;
+	const HOME_ORIENTATION = new THREE.Quaternion().setFromEuler(new THREE.Euler(15 * Math.PI / 180, -5 * Math.PI / 180, 0));
+
 	onMount(async () => {
 		await import('cubing/twisty');
+
+		const animateOrientation = async () => {
+			if (el) {
+				const player = el as any;
+				const gyroscopeEnabled = sessionState.activeSession?.settings.smartCubeGyroscope ?? false;
+				
+				if (gyroscopeEnabled && bluetoothState.gyroSupported) {
+					try {
+						const puzzleObject = await player.experimentalCurrentThreeJSPuzzleObject();
+						const vantages = await player.experimentalCurrentVantages();
+						const vantage = [...vantages][0] as any;
+						
+						if (puzzleObject && vantage) {
+							const rawQuat = bluetoothState.rawQuaternion;
+							if (rawQuat) {
+								const rawQuaternion = new THREE.Quaternion(
+									rawQuat.x,
+									rawQuat.z,
+									-rawQuat.y,
+									rawQuat.w
+								).normalize();
+
+								if (!gyroBasis) {
+									gyroBasis = rawQuaternion.clone().conjugate();
+								}
+
+								const displayQuaternion = rawQuaternion.clone().premultiply(gyroBasis).premultiply(HOME_ORIENTATION);
+								
+								puzzleObject.quaternion.slerp(displayQuaternion, 0.25);
+								if (vantage.render) vantage.render();
+							}
+						}
+					} catch (e) {
+						// ignore if twisty scene not initialized
+					}
+				} else {
+					gyroBasis = null;
+					// reset orientation smoothly back to normal
+					try {
+						const puzzleObject = await player.experimentalCurrentThreeJSPuzzleObject();
+						if (puzzleObject && puzzleObject.quaternion.angleTo(new THREE.Quaternion()) > 0.01) {
+							puzzleObject.quaternion.slerp(new THREE.Quaternion(), 0.1);
+							const vantages = await player.experimentalCurrentVantages();
+							const vantage = [...vantages][0] as any;
+							if (vantage?.render) vantage.render();
+						}
+					} catch (e) {}
+				}
+			}
+			animationFrameId = requestAnimationFrame(animateOrientation);
+		};
+		
+		animationFrameId = requestAnimationFrame(animateOrientation);
 
 		// Set up event listener to track camera position changes
 		// Wait a tick for the element to be fully initialized
@@ -427,6 +487,9 @@
 	onDestroy(() => {
 		if (cleanupClickHandlers) {
 			cleanupClickHandlers();
+		}
+		if (animationFrameId !== null) {
+			cancelAnimationFrame(animationFrameId);
 		}
 	});
 </script>

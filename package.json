@@ -60,6 +60,7 @@
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/lz-string": "^1.3.34",
 		"@types/node": "^22",
+		"@types/three": "^0.185.0",
 		"@types/web-bluetooth": "^0.0.21",
 		"@vitejs/plugin-basic-ssl": "^2.1.0",
 		"@vitest/browser": "^3.2.4",
@@ -111,6 +112,7 @@
 		"svelte-clerk": "^0.20.3",
 		"svelte-confetti": "^2.3.2",
 		"svelte-splitpanes": "^8.0.9",
-		"svix": "^1.84.1"
+		"svix": "^1.84.1",
+		"three": "^0.185.1"
 	}
 }

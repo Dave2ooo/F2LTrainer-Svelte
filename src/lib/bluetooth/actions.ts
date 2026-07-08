@@ -28,11 +28,11 @@ export async function connectCube(savedCube?: SavedCube) {
 			// fall back to customName (which defaults to the original device name)
 			deviceName: savedCube?.deviceName ?? savedCube?.customName,
 			enableAddressSearch: true,
-			onStatus: (msg) => {
+			onStatus: (msg: string) => {
 				console.log('[F2LTrainer] Status:', msg);
 				bluetoothState.setStatusMessage(msg);
 			},
-			macAddressProvider: async (device, isFallbackCall) => {
+			macAddressProvider: async (device: any, isFallbackCall?: boolean) => {
 				const existing = savedCubesState.cubes.find((c) =>
 					c.id === device.id ||
 					(device.name && c.deviceName === device.name)
@@ -62,14 +62,17 @@ export async function connectCube(savedCube?: SavedCube) {
 
 		// Setup event subscription
 		activeSubscription = conn.events$.subscribe({
-			next: (event) => {
+			next: (event: any) => {
 				if (event.type === 'MOVE') {
 					bluetoothState.pushMove(event.move);
 				} else if (event.type === 'FACELETS') {
 					bluetoothState.setFacelet(event.facelets);
 				} else if (event.type === 'BATTERY') {
 					bluetoothState.setBatteryLevel(event.batteryLevel);
+				} else if (event.type === 'GYRO') {
+					bluetoothState.setRawQuaternion(event.quaternion);
 				} else if (event.type === 'HARDWARE') {
+					bluetoothState.setGyroSupported(event.gyroSupported === true);
 					console.log('[F2LTrainer] Successfully connected to cube:', {
 						hardwareName: event.hardwareName,
 						softwareVersion: event.softwareVersion,
@@ -82,7 +85,7 @@ export async function connectCube(savedCube?: SavedCube) {
 					cleanupConnection();
 				}
 			},
-			error: (err) => {
+			error: (err: any) => {
 				console.error('[F2LTrainer] Connection error:', err);
 				bluetoothState.setErrorMessage(err.toString());
 				bluetoothState.setConnected(false);

@@ -33,6 +33,7 @@ export interface SessionSettings {
 	trainHintAlgorithm: HintAlgorithm;
 	trainHintStickering: HintStickering;
 	smartHintBehavior: 'auto' | 'manual';
+	smartCubeGyroscope: boolean;
 	backView: 'none' | 'floating';
 	backViewEnabled: boolean; // Controls back-view attribute: true = "top-right", false = "none"
 	crossColor: string[];
