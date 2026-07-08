@@ -291,7 +291,7 @@
 					<div class="mt-4 flex flex-col gap-4">
 						<!-- Training Activity Section -->
 						<div class="flex flex-col gap-4">
-							<Label class="text-sm font-semibold">Training Activity</Label>
+							<Label class="text-sm font-semibold">Training Mode</Label>
 
 							<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
 								<!-- Standard Practice Card -->
