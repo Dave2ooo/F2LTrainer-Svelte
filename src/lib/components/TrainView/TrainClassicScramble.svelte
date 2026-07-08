@@ -255,10 +255,13 @@
 			const inverseRot = inverseRotation(cumulativeRotation);
 			const transformedMove = applyRotationToMove(m, inverseRot);
 
-			if (isNextWideMove) {
+			const useGyro = sessionState.activeSession?.settings.smartCubeGyroscope && bluetoothState.gyroSupported;
+
+			if (isNextWideMove && !useGyro) {
 				twistyPlayerRef.addMove('', m);
 			} else {
-				twistyPlayerRef.addMove(transformedMove, m);
+				const displayMove = useGyro ? m : transformedMove;
+				twistyPlayerRef.addMove(displayMove, m);
 				movesAdded += (movesAdded ? ' ' : '') + transformedMove;
 			}
 
@@ -313,6 +316,8 @@
 	}
 
 	function validateMoveProgress() {
+		const useGyro = sessionState.activeSession?.settings.smartCubeGyroscope && bluetoothState.gyroSupported;
+
 		// Disable algorithm validation and auto-rotation if the hint is hidden or manual
 		// (but ONLY during the solving phases, we still need to validate the scramble!)
 		const hintAlgorithm =
@@ -347,7 +352,7 @@
 			}
 
 			for (const rotation of rotationsToApply) {
-				twistyPlayerRef.addMove(rotation, '');
+				if (!useGyro) twistyPlayerRef.addMove(rotation, '');
 			}
 
 			const allRotations = cumulativeRotation
@@ -370,7 +375,7 @@
 				const { match, consumedCount } = matchesMoveSequence(normalized, [singleLayerMove]);
 
 				if (match && consumedCount > 0) {
-					twistyPlayerRef.addMove(wideMove, '');
+					if (!useGyro) twistyPlayerRef.addMove(wideMove, '');
 					caseHasRotation = true;
 					const rotationsToUpdate = [implicitRotation, cumulativeRotation].filter((r) => r !== '');
 					cumulativeRotation = combineRotations(rotationsToUpdate);
@@ -399,7 +404,7 @@
 				if (isSliceMove(matchedMove)) {
 					const implicitRot = getSliceImplicitRotation(matchedMove);
 					if (implicitRot) {
-						twistyPlayerRef.addMove(implicitRot, '');
+						if (!useGyro) twistyPlayerRef.addMove(implicitRot, '');
 						caseHasRotation = true;
 						const rotationsToUpdate = [implicitRot, cumulativeRotation].filter((r) => r !== '');
 						cumulativeRotation = combineRotations(rotationsToUpdate);
