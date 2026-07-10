@@ -571,7 +571,7 @@
 			color={'none' as any}
 			type="button"
 			onclick={() => resetView(true)}
-			class="hover:bg-opacity-90 absolute top-1 right-1 rounded-full p-2 text-primary-600 transition-all duration-200"
+			class="hover:bg-opacity-90 absolute {bluetoothState.isConnected ? 'bottom-1' : 'bottom-16'} right-1 rounded-full p-2 text-primary-600 transition-all duration-200 focus:ring-0"
 			title="Reset View"
 			aria-label="Reset camera view"
 		>
