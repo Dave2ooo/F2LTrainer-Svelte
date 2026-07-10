@@ -1002,7 +1002,17 @@
 										<div class="card">
 											<Label class="mb-3 text-sm font-semibold">Smart Cube Gyroscope</Label>
 											<div class="grid grid-cols-1">
-												<Checkbox bind:checked={settings.gyroEnabled}>Enable Gyroscope</Checkbox>
+												<Checkbox 
+													bind:checked={settings.gyroEnabled}
+													disabled={settings.scrambleYourself}
+												>
+													Enable Gyroscope
+												</Checkbox>
+												{#if settings.scrambleYourself}
+													<p class="mt-2 text-xs text-amber-600 dark:text-amber-500">
+														Disabled in Scramble Smart Cube mode
+													</p>
+												{/if}
 											</div>
 										</div>
 									</div>

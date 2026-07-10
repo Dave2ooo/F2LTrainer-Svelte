@@ -255,14 +255,10 @@
 			const inverseRot = inverseRotation(cumulativeRotation);
 			const transformedMove = applyRotationToMove(m, inverseRot);
 
-			const useGyro =
-				sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
-
-			if (isNextWideMove && !useGyro) {
+			if (isNextWideMove) {
 				twistyPlayerRef.addMove('', m);
 			} else {
-				const displayMove = useGyro ? m : transformedMove;
-				twistyPlayerRef.addMove(displayMove, m);
+				twistyPlayerRef.addMove(transformedMove, m);
 				movesAdded += (movesAdded ? ' ' : '') + transformedMove;
 			}
 
@@ -317,9 +313,6 @@
 	}
 
 	function validateMoveProgress() {
-		const useGyro =
-			sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
-
 		// Disable algorithm validation and auto-rotation if the hint is hidden or manual
 		// (but ONLY during the solving phases, we still need to validate the scramble!)
 		const hintAlgorithm =
@@ -354,7 +347,7 @@
 			}
 
 			for (const rotation of rotationsToApply) {
-				if (!useGyro) twistyPlayerRef.addMove(rotation, '');
+				twistyPlayerRef.addMove(rotation, '');
 			}
 
 			const allRotations = cumulativeRotation
@@ -377,7 +370,7 @@
 				const { match, consumedCount } = matchesMoveSequence(normalized, [singleLayerMove]);
 
 				if (match && consumedCount > 0) {
-					if (!useGyro) twistyPlayerRef.addMove(wideMove, '');
+					twistyPlayerRef.addMove(wideMove, '');
 					caseHasRotation = true;
 					const rotationsToUpdate = [implicitRotation, cumulativeRotation].filter((r) => r !== '');
 					cumulativeRotation = combineRotations(rotationsToUpdate);
@@ -406,7 +399,7 @@
 				if (isSliceMove(matchedMove)) {
 					const implicitRot = getSliceImplicitRotation(matchedMove);
 					if (implicitRot) {
-						if (!useGyro) twistyPlayerRef.addMove(implicitRot, '');
+						twistyPlayerRef.addMove(implicitRot, '');
 						caseHasRotation = true;
 						const rotationsToUpdate = [implicitRot, cumulativeRotation].filter((r) => r !== '');
 						cumulativeRotation = combineRotations(rotationsToUpdate);
@@ -818,6 +811,7 @@
 				showAlg={false}
 				disableAutoScramble={phase === 'scrambling'}
 				hidePlayer={phase === 'countdown'}
+				enableGyroOverride={false}
 				onF2LSolved={(entireF2LSolved) => {
 					if (phase === 'solving' || phase === 'executing') {
 						const executionTime = drillTimerRef?.stopExecution() ?? 0;
