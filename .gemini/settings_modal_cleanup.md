@@ -84,18 +84,19 @@ type TrainSettings = {
 ### Migration Path
 
 All settings that were in the global Settings modal are now in `SessionSettingsModal`:
-| Old Location (Settings.svelte) | New Location (SessionSettingsModal) |
-|--------------------------------|--------------------------------------|
-| Statuses | Case Selection → Training State Selection |
-| Case Groups | Case Selection → F2L Groups |
-| Slot Side | Training → Slots |
-| Add AUF | Training → Additional Options |
-| Show Tim| Training → Additional Options |
-| Smart Frequency | Training → Case Frequency |
-| Algorithm Display | Visuals → Hint Settings |
-| Stickering Style | Visuals → Hint Settings |
-| Cross Color | Visuals → Color Settings |
-| Front Color | Visuals → Color Settings |
+
+| Old Location (Settings.svelte) | New Location (SessionSettingsModal)       |
+| ------------------------------ | ----------------------------------------- |
+| Statuses                       | Case Selection → Training State Selection |
+| Case Groups                    | Case Selection → F2L Groups               |
+| Slot Side                      | Training → Slots                          |
+| Add AUF                        | Training → Additional Options             |
+| Show Tim                       | Training → Additional Options             |
+| Smart Frequency                | Training → Case Frequency                 |
+| Algorithm Display              | Visuals → Hint Settings                   |
+| Stickering Style               | Visuals → Hint Settings                   |
+| Cross Color                    | Visuals → Color Settings                  |
+| Front Color                    | Visuals → Color Settings                  |
 
 ### Benefits
 

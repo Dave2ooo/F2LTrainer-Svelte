@@ -142,7 +142,8 @@
 			const inverseRot = inverseRotation(cumulativeRotation);
 			const transformedMove = applyRotationToMove(m, inverseRot);
 
-			const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
+			const useGyro =
+				sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 			// If next expected move is a wide move, we skip adding the display move
 			// (wide move will be added during validation to avoid double-application)
@@ -251,7 +252,8 @@
 	);
 
 	function validateMoveProgress() {
-		const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
+		const useGyro =
+			sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 		// Disable algorithm validation and auto-rotation if the hint is hidden or manual
 		const hintAlgorithm =
@@ -660,10 +662,10 @@
 
 	let isResetDisabled = $derived(
 		currentMoveIndex === 0 &&
-		alg.trim() === '' &&
-		!timerStarted &&
-		moveBuffer.length === 0 &&
-		undoMoves.length === 0
+			alg.trim() === '' &&
+			!timerStarted &&
+			moveBuffer.length === 0 &&
+			undoMoves.length === 0
 	);
 
 	function markAsSolved(force: boolean = false) {

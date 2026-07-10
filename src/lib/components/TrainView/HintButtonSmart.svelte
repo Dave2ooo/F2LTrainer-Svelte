@@ -133,7 +133,8 @@
 		return '';
 	};
 
-	const editButtonClass = 'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
+	const editButtonClass =
+		'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
 
 	let showEditButton = $derived(totalMoves > 0);
 
@@ -220,7 +221,9 @@
 				>
 					<Pencil class="size-6" strokeWidth={3} />
 				</Button>
-				<Tooltip placement="right">{editDisabled ? 'Undo moves first to edit algorithm' : 'Edit Algorithm'}</Tooltip>
+				<Tooltip placement="right"
+					>{editDisabled ? 'Undo moves first to edit algorithm' : 'Edit Algorithm'}</Tooltip
+				>
 			{/if}
 
 			{#if onReset}

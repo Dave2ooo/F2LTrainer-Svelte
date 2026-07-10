@@ -364,14 +364,15 @@
 		const animateOrientation = async () => {
 			if (el) {
 				const player = el as any;
-				const gyroscopeEnabled = enableGyroOverride ?? sessionState.activeSession?.settings.gyroEnabled ?? false;
-				
+				const gyroscopeEnabled =
+					enableGyroOverride ?? sessionState.activeSession?.settings.gyroEnabled ?? false;
+
 				if (gyroscopeEnabled && bluetoothState.gyroSupported) {
 					try {
 						const puzzleObject = await player.experimentalCurrentThreeJSPuzzleObject();
 						const vantages = await player.experimentalCurrentVantages();
 						const vantage = [...vantages][0] as any;
-						
+
 						if (puzzleObject && vantage) {
 							const rawQuat = bluetoothState.rawQuaternion;
 							if (rawQuat) {
@@ -386,8 +387,11 @@
 									gyroBasis = rawQuaternion.clone().conjugate();
 								}
 
-								const displayQuaternion = rawQuaternion.clone().premultiply(gyroBasis).premultiply(HOME_ORIENTATION);
-								
+								const displayQuaternion = rawQuaternion
+									.clone()
+									.premultiply(gyroBasis)
+									.premultiply(HOME_ORIENTATION);
+
 								puzzleObject.quaternion.slerp(displayQuaternion, 0.25);
 								if (vantage.render) vantage.render();
 							}
@@ -411,7 +415,7 @@
 			}
 			animationFrameId = requestAnimationFrame(animateOrientation);
 		};
-		
+
 		animationFrameId = requestAnimationFrame(animateOrientation);
 
 		// Set up event listener to track camera position changes
@@ -573,12 +577,16 @@
 			color={'none' as any}
 			type="button"
 			onclick={() => resetView(true)}
-			class="hover:bg-opacity-90 absolute {bluetoothState.isConnected ? 'bottom-1' : 'bottom-16'} right-1 rounded-full p-2 text-primary-600 transition-all duration-200 focus:ring-0 focus:outline-none"
+			class="hover:bg-opacity-90 absolute {bluetoothState.isConnected
+				? 'bottom-1'
+				: 'bottom-16'} right-1 rounded-full p-2 text-primary-600 transition-all duration-200 focus:ring-0 focus:outline-none"
 			aria-label="Reset camera view"
 		>
 			<RotateCw class="size-6" strokeWidth={3} />
 		</Button>
-		<Tooltip placement="left">{gyroActive && bluetoothState.isConnected ? 'Reset Gyro' : 'Reset View'}</Tooltip>
+		<Tooltip placement="left"
+			>{gyroActive && bluetoothState.isConnected ? 'Reset Gyro' : 'Reset View'}</Tooltip
+		>
 	{/if}
 </div>
 

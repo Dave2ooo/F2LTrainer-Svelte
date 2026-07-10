@@ -175,11 +175,15 @@
 						enableGyroOverride={enableModalGyro}
 					/>
 				</div>
-				<div class="flex w-full flex-col gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 sm:flex-row sm:divide-x sm:divide-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:sm:divide-gray-700">
+				<div
+					class="flex w-full flex-col gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3 sm:flex-row sm:divide-x sm:divide-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:sm:divide-gray-700"
+				>
 					<div class="flex flex-1 items-center gap-3 sm:px-2">
 						<Button color="gray" outline size="xs" class="shrink-0" onclick={onSync}>Reset</Button>
 						<div class="flex flex-col text-left">
-							<span class="text-sm font-semibold leading-tight text-gray-900 dark:text-white">Reset Stickering</span>
+							<span class="text-sm font-semibold leading-tight text-gray-900 dark:text-white"
+								>Reset Stickering</span
+							>
 							<span class="text-xs text-gray-500 dark:text-gray-400">
 								Reset to solved state. For testing only.
 							</span>
@@ -191,7 +195,9 @@
 						<div class="flex flex-1 items-center gap-3 sm:px-2">
 							<Toggle bind:checked={enableModalGyro} color="blue" class="shrink-0" />
 							<div class="flex flex-col text-left">
-								<span class="text-sm font-semibold leading-tight text-gray-900 dark:text-white">Gyroscope</span>
+								<span class="text-sm font-semibold leading-tight text-gray-900 dark:text-white"
+									>Gyroscope</span
+								>
 								<span class="text-xs text-gray-500 dark:text-gray-400">
 									For testing only. Enable it in Session Settings for training.
 								</span>

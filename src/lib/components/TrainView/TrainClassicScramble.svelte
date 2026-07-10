@@ -255,7 +255,8 @@
 			const inverseRot = inverseRotation(cumulativeRotation);
 			const transformedMove = applyRotationToMove(m, inverseRot);
 
-			const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
+			const useGyro =
+				sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 			if (isNextWideMove && !useGyro) {
 				twistyPlayerRef.addMove('', m);
@@ -316,7 +317,8 @@
 	}
 
 	function validateMoveProgress() {
-		const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
+		const useGyro =
+			sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 		// Disable algorithm validation and auto-rotation if the hint is hidden or manual
 		// (but ONLY during the solving phases, we still need to validate the scramble!)
@@ -496,10 +498,10 @@
 
 	let isResetDisabled = $derived(
 		phase === 'scrambling' &&
-		currentMoveIndex === 0 &&
-		movesAdded.trim() === '' &&
-		moveBuffer.length === 0 &&
-		undoMoves.length === 0
+			currentMoveIndex === 0 &&
+			movesAdded.trim() === '' &&
+			moveBuffer.length === 0 &&
+			undoMoves.length === 0
 	);
 
 	let settingsRef = $state<Settings>();

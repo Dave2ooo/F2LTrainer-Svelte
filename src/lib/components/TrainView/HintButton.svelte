@@ -59,7 +59,8 @@
 	const className =
 		'display-box cursor-pointer text-xl md:text-2xl hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary-600 focus:outline-none';
 
-	const actionButtonClass = 'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
+	const actionButtonClass =
+		'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
 
 	let resetButtonColorClass = $derived(
 		resetDisabled
