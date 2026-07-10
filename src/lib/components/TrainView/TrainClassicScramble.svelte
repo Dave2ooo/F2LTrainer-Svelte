@@ -255,7 +255,7 @@
 			const inverseRot = inverseRotation(cumulativeRotation);
 			const transformedMove = applyRotationToMove(m, inverseRot);
 
-			const useGyro = sessionState.activeSession?.settings.smartCubeGyroscope && bluetoothState.gyroSupported;
+			const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 			if (isNextWideMove && !useGyro) {
 				twistyPlayerRef.addMove('', m);
@@ -316,7 +316,7 @@
 	}
 
 	function validateMoveProgress() {
-		const useGyro = sessionState.activeSession?.settings.smartCubeGyroscope && bluetoothState.gyroSupported;
+		const useGyro = sessionState.activeSession?.settings.gyroEnabled && bluetoothState.gyroSupported;
 
 		// Disable algorithm validation and auto-rotation if the hint is hidden or manual
 		// (but ONLY during the solving phases, we still need to validate the scramble!)

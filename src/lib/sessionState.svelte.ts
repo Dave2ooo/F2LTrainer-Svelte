@@ -29,7 +29,7 @@ export const DEFAULT_SETTINGS: SessionSettings = {
 	trainHintAlgorithm: 'step',
 	trainHintStickering: 'f2l',
 	smartHintBehavior: 'auto',
-	smartCubeGyroscope: false,
+	gyroEnabled: false,
 	backView: 'none',
 	backViewEnabled: false,
 	crossColor: ['white'],
