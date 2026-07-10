@@ -259,7 +259,12 @@
 	});
 
 	// Track whether the reset button should be visible
-	let showResetButton = $state(false);
+	let isCameraRotated = $state(false);
+	let gyroActive = $derived(
+		(sessionState.activeSession?.settings.smartCubeGyroscope ?? false) &&
+			bluetoothState.gyroSupported
+	);
+	let showResetButton = $derived(isCameraRotated || gyroActive);
 
 	// Store event listeners for cleanup
 	let cleanupClickHandlers: (() => void) | null = null;
@@ -315,11 +320,15 @@
 		}
 	}
 
-	export function resetView() {
+	export function resetView(resetGyro = false) {
 		if (el) {
 			const player = el as any;
 			player.cameraLongitude = cameraLongitude;
 			player.cameraLatitude = cameraLatitude;
+		}
+		// Only re-center the gyroscope if explicitly requested
+		if (resetGyro === true) {
+			gyroBasis = null;
 		}
 	}
 
@@ -345,7 +354,7 @@
 	// Register the custom element only on the client (avoids SSR issues)
 	let animationFrameId: number | null = null;
 	let gyroBasis: THREE.Quaternion | null = null;
-	const HOME_ORIENTATION = new THREE.Quaternion().setFromEuler(new THREE.Euler(15 * Math.PI / 180, -5 * Math.PI / 180, 0));
+	const HOME_ORIENTATION = new THREE.Quaternion();
 
 	onMount(async () => {
 		await import('cubing/twisty');
@@ -421,7 +430,7 @@
 								const isAtDefaultPosition =
 									Math.abs(coords.latitude - cameraLatitude) < CAMERA_POSITION_TOLERANCE &&
 									Math.abs(coords.longitude - cameraLongitude) < CAMERA_POSITION_TOLERANCE;
-								showResetButton = !isAtDefaultPosition;
+								isCameraRotated = !isAtDefaultPosition;
 							}
 						);
 					}
@@ -561,7 +570,7 @@
 		<Button
 			color={'none' as any}
 			type="button"
-			onclick={resetView}
+			onclick={() => resetView(true)}
 			class="hover:bg-opacity-90 absolute top-1 right-1 rounded-full p-2 text-primary-600 transition-all duration-200"
 			title="Reset View"
 			aria-label="Reset camera view"
