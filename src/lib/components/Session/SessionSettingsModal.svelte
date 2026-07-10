@@ -665,15 +665,7 @@
 														</div>
 													{/if}
 													
-													<div class="border-t border-gray-200 mt-3 pt-3 dark:border-gray-700">
-														<Label class="section-label mb-3">Smart Cube Gyroscope</Label>
-														<p class="mb-3 text-xs text-gray-500 dark:text-gray-400">
-															Syncs virtual cube orientation with the physical cube.
-														</p>
-														<div class="grid grid-cols-1">
-															<Checkbox bind:checked={settings.smartCubeGyroscope}>Enable Gyroscope</Checkbox>
-														</div>
-													</div>
+
 												</div>
 											</div>
 										{/if}
@@ -1005,6 +997,14 @@
 														</div>
 													{/if}
 												{/if}
+											</div>
+										</div>
+
+										<!-- Gyroscope -->
+										<div class="card">
+											<Label class="mb-3 text-sm font-semibold">Smart Cube Gyroscope</Label>
+											<div class="grid grid-cols-1">
+												<Checkbox bind:checked={settings.smartCubeGyroscope}>Enable Gyroscope</Checkbox>
 											</div>
 										</div>
 									</div>
