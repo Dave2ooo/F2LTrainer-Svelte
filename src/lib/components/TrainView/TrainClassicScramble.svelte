@@ -476,6 +476,32 @@
 		}
 	}
 
+	function resetCase() {
+		drillTimerRef?.reset();
+
+		phase = 'scrambling';
+		currentMoveIndex = 0;
+		moveBuffer = [];
+		validationFeedback = 'neutral';
+		cumulativeRotation = '';
+		undoMoves = [];
+		movesAdded = '';
+		caseHasRotation = false;
+		showRotationWarning = false;
+		showTargetSolvedCheck = false;
+		if (checkTimeoutId) clearTimeout(checkTimeoutId);
+
+		twistyPlayerRef?.reset();
+	}
+
+	let isResetDisabled = $derived(
+		phase === 'scrambling' &&
+		currentMoveIndex === 0 &&
+		movesAdded.trim() === '' &&
+		moveBuffer.length === 0 &&
+		undoMoves.length === 0
+	);
+
 	let settingsRef = $state<Settings>();
 	let bluetoothModalOpen = $state(false);
 
@@ -876,6 +902,8 @@
 					onEditAlg={() => {
 						editAlgRef?.openModal();
 					}}
+					onReset={resetCase}
+					resetDisabled={isResetDisabled}
 					showAlgViewer={false}
 				/>
 			{:else}
@@ -894,6 +922,8 @@
 					onEditAlg={() => {
 						editAlgRef?.openModal();
 					}}
+					onReset={resetCase}
+					resetDisabled={isResetDisabled}
 				/>
 			{/if}
 		{/if}

@@ -15,7 +15,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { RotateCw, Eye, EyeOff } from '@lucide/svelte';
 	import { setupTwistyPlayerClickHandlers } from '$lib/utils/twistyPlayerClickHandler';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Tooltip } from 'flowbite-svelte';
 	import type { HintStickering } from '$lib/types/globalState';
 	import { checkF2LState } from '$lib/utils/checkF2LState';
 	import { globalState } from '$lib/globalState.svelte';
@@ -571,12 +571,12 @@
 			color={'none' as any}
 			type="button"
 			onclick={() => resetView(true)}
-			class="hover:bg-opacity-90 absolute {bluetoothState.isConnected ? 'bottom-1' : 'bottom-16'} right-1 rounded-full p-2 text-primary-600 transition-all duration-200 focus:ring-0"
-			title="Reset View"
+			class="hover:bg-opacity-90 absolute {bluetoothState.isConnected ? 'bottom-1' : 'bottom-16'} right-1 rounded-full p-2 text-primary-600 transition-all duration-200 focus:ring-0 focus:outline-none"
 			aria-label="Reset camera view"
 		>
 			<RotateCw class="size-6" strokeWidth={3} />
 		</Button>
+		<Tooltip placement="left">{gyroActive && bluetoothState.isConnected ? 'Reset Gyro' : 'Reset View'}</Tooltip>
 	{/if}
 </div>
 

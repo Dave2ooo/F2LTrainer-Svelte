@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { HintAlgorithm } from '$lib/types/globalState';
-	import { Pencil } from '@lucide/svelte';
-	import { Button } from 'flowbite-svelte';
+	import { Pencil, RotateCcw } from '@lucide/svelte';
+	import { Button, Tooltip } from 'flowbite-svelte';
 
 	interface Props {
 		alg: string;
@@ -10,6 +10,8 @@
 		hintMode: HintAlgorithm;
 		onclick: () => void;
 		onEditAlg: () => void;
+		onReset?: () => void;
+		resetDisabled?: boolean;
 		// element used by the TwistyAlgViewer (parent can bind to this)
 		algViewerContainer?: HTMLElement;
 		// whether to display the alg viewer element
@@ -23,6 +25,8 @@
 		hintMode,
 		onclick,
 		onEditAlg,
+		onReset,
+		resetDisabled = false,
 		algViewerContainer = $bindable(),
 		showAlgViewer
 	}: Props = $props();
@@ -55,8 +59,13 @@
 	const className =
 		'display-box cursor-pointer text-xl md:text-2xl hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary-600 focus:outline-none';
 
-	const editButtonClass =
-		'hover:bg-opacity-90 flex-shrink-0 rounded-full p-2 text-primary-500 transition-all duration-200';
+	const actionButtonClass = 'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
+
+	let resetButtonColorClass = $derived(
+		resetDisabled
+			? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+			: 'text-primary-500 hover:bg-opacity-90 cursor-pointer'
+	);
 
 	// Show edit button when either algViewer or algorithm text is shown
 	let showEditButton = $derived(showAlgViewer || showAlgorithm);
@@ -95,21 +104,42 @@
 			</div>
 		{/if}
 
-		{#if showEditButton}
-			<Button
-				color={'none' as any}
-				type="button"
-				onclick={(e: MouseEvent) => {
-					e.stopPropagation();
-					onEditAlg();
-				}}
-				class={editButtonClass}
-				title="Edit Algorithm"
-				aria-label="Edit algorithm"
-			>
-				<Pencil class="size-6" strokeWidth={3} />
-			</Button>
-		{/if}
+		<div class="flex flex-col gap-1">
+			{#if showEditButton}
+				<Button
+					color={'none' as any}
+					type="button"
+					onclick={(e: MouseEvent) => {
+						e.stopPropagation();
+						onEditAlg();
+					}}
+					class={`${actionButtonClass} text-primary-500 hover:bg-opacity-90 cursor-pointer`}
+					aria-label="Edit algorithm"
+				>
+					<Pencil class="size-6" strokeWidth={3} />
+				</Button>
+				<Tooltip placement="right">Edit Algorithm</Tooltip>
+			{/if}
+
+			{#if onReset}
+				<Button
+					color={'none' as any}
+					type="button"
+					onclick={(e: MouseEvent) => {
+						e.stopPropagation();
+						if (!resetDisabled) {
+							onReset();
+						}
+					}}
+					class={`${actionButtonClass} ${resetButtonColorClass}`}
+					aria-label="Reset case"
+					aria-disabled={resetDisabled}
+				>
+					<RotateCcw class="size-6" strokeWidth={3} />
+				</Button>
+				<Tooltip placement="right">Reset Case</Tooltip>
+			{/if}
+		</div>
 	</div>
 </div>
 

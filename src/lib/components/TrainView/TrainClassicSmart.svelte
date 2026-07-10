@@ -640,6 +640,32 @@
 		}
 	});
 
+	function resetCase() {
+		alg = '';
+		currentMoveIndex = 0;
+		moveBuffer = [];
+		validationFeedback = 'neutral';
+		cumulativeRotation = '';
+		undoMoves = [];
+		caseHasRotation = false;
+		showRotationWarning = false;
+
+		if (smartTimerRef?.getIsRunning()) {
+			smartTimerRef.stopTimer();
+			smartTimerRef.resetTimer();
+		}
+		timerStarted = false;
+		twistyPlayerRef?.reset();
+	}
+
+	let isResetDisabled = $derived(
+		currentMoveIndex === 0 &&
+		alg.trim() === '' &&
+		!timerStarted &&
+		moveBuffer.length === 0 &&
+		undoMoves.length === 0
+	);
+
 	function markAsSolved(force: boolean = false) {
 		if (currentTrainCase) {
 			if (force || !currentTrainCase.solved) {
@@ -957,6 +983,8 @@
 					onEditAlg={() => {
 						editAlgRef?.openModal();
 					}}
+					onReset={resetCase}
+					resetDisabled={isResetDisabled}
 					showAlgViewer={false}
 				/>
 			{:else}
@@ -973,6 +1001,8 @@
 					onEditAlg={() => {
 						editAlgRef?.openModal();
 					}}
+					onReset={resetCase}
+					resetDisabled={isResetDisabled}
 				/>
 			{/if}
 		{/if}

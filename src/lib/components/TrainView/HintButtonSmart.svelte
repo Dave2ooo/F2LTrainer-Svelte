@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { HintAlgorithm } from '$lib/types/globalState';
-	import { Pencil, Undo2 } from '@lucide/svelte';
+	import { Pencil, Undo2, RotateCcw } from '@lucide/svelte';
 	import { isRotationMove } from '$lib/utils/moveValidator';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Tooltip } from 'flowbite-svelte';
 
 	interface Props {
 		alg: string;
@@ -14,6 +14,8 @@
 		editDisabled?: boolean; // Disable edit button when moves have been made
 		hintMode?: HintAlgorithm; // Hint display mode: step, allAtOnce, always
 		hasMadeFirstMove?: boolean; // Whether the user has made their first move
+		onReset?: () => void;
+		resetDisabled?: boolean;
 	}
 
 	let {
@@ -25,7 +27,9 @@
 		undoMoves = [],
 		editDisabled = false,
 		hintMode = 'step',
-		hasMadeFirstMove = false
+		hasMadeFirstMove = false,
+		onReset,
+		resetDisabled = false
 	}: Props = $props();
 
 	// Number of "current" moves to highlight (lookahead window)
@@ -129,13 +133,19 @@
 		return '';
 	};
 
-	const editButtonClass = 'flex-shrink-0 rounded-full p-2 transition-all duration-200';
+	const editButtonClass = 'flex-shrink-0 rounded-full p-2 transition-all duration-200 focus:ring-0 focus:outline-none';
 
 	let showEditButton = $derived(totalMoves > 0);
 
 	// Edit button color classes based on disabled state
 	let editButtonColorClass = $derived(
 		editDisabled
+			? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+			: 'text-primary-500 hover:bg-opacity-90 cursor-pointer'
+	);
+
+	let resetButtonColorClass = $derived(
+		resetDisabled
 			? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
 			: 'text-primary-500 hover:bg-opacity-90 cursor-pointer'
 	);
@@ -193,24 +203,45 @@
 			{/if}
 		</div>
 
-		{#if showEditButton}
-			<Button
-				color={'none' as any}
-				type="button"
-				onclick={(e: MouseEvent) => {
-					e.stopPropagation();
-					if (!editDisabled) {
-						onEditAlg();
-					}
-				}}
-				class={`${editButtonClass} ${editButtonColorClass}`}
-				title={editDisabled ? 'Undo moves first to edit algorithm' : 'Edit Algorithm'}
-				aria-label={editDisabled ? 'Edit disabled - undo moves first' : 'Edit algorithm'}
-				aria-disabled={editDisabled}
-			>
-				<Pencil class="size-6" strokeWidth={3} />
-			</Button>
-		{/if}
+		<div class="flex flex-col gap-1">
+			{#if showEditButton}
+				<Button
+					color={'none' as any}
+					type="button"
+					onclick={(e: MouseEvent) => {
+						e.stopPropagation();
+						if (!editDisabled) {
+							onEditAlg();
+						}
+					}}
+					class={`${editButtonClass} ${editButtonColorClass}`}
+					aria-label={editDisabled ? 'Edit disabled - undo moves first' : 'Edit algorithm'}
+					aria-disabled={editDisabled}
+				>
+					<Pencil class="size-6" strokeWidth={3} />
+				</Button>
+				<Tooltip placement="right">{editDisabled ? 'Undo moves first to edit algorithm' : 'Edit Algorithm'}</Tooltip>
+			{/if}
+
+			{#if onReset}
+				<Button
+					color={'none' as any}
+					type="button"
+					onclick={(e: MouseEvent) => {
+						e.stopPropagation();
+						if (!resetDisabled) {
+							onReset();
+						}
+					}}
+					class={`${editButtonClass} ${resetButtonColorClass}`}
+					aria-label="Reset case"
+					aria-disabled={resetDisabled}
+				>
+					<RotateCcw class="size-6" strokeWidth={3} />
+				</Button>
+				<Tooltip placement="right">Reset Case</Tooltip>
+			{/if}
+		</div>
 	</div>
 
 	<!-- <div class="mt-2 flex flex-col items-center gap-1">
