@@ -58,6 +58,7 @@
 		movesAdded?: string; // Transformed moves for display
 		enableEOColoring?: boolean;
 		disableAutoScramble?: boolean; // if true, scramble from groupid/caseid will not be applied
+		enableGyroOverride?: boolean;
 	}
 
 	let {
@@ -87,7 +88,8 @@
 		backViewEnabled = false,
 		movesAdded = $bindable(''),
 		enableEOColoring = false,
-		disableAutoScramble = false
+		disableAutoScramble = false,
+		enableGyroOverride
 	}: Props = $props();
 
 	// Raw moves tracked internally for F2L checking (not exposed to parent)
@@ -261,7 +263,7 @@
 	// Track whether the reset button should be visible
 	let isCameraRotated = $state(false);
 	let gyroActive = $derived(
-		(sessionState.activeSession?.settings.smartCubeGyroscope ?? false) &&
+		(enableGyroOverride ?? sessionState.activeSession?.settings.smartCubeGyroscope ?? false) &&
 			bluetoothState.gyroSupported
 	);
 	let showResetButton = $derived(isCameraRotated || gyroActive);
@@ -362,7 +364,7 @@
 		const animateOrientation = async () => {
 			if (el) {
 				const player = el as any;
-				const gyroscopeEnabled = sessionState.activeSession?.settings.smartCubeGyroscope ?? false;
+				const gyroscopeEnabled = enableGyroOverride ?? sessionState.activeSession?.settings.smartCubeGyroscope ?? false;
 				
 				if (gyroscopeEnabled && bluetoothState.gyroSupported) {
 					try {
