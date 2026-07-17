@@ -570,6 +570,7 @@
 				<EyeOff class="size-6" strokeWidth={3} />
 			{/if}
 		</Button>
+		<Tooltip placement="right">{hidePlayer ? 'Show Cube' : 'Hide Cube'}</Tooltip>
 	{/if}
 
 	{#if showResetButton && !hidePlayer}

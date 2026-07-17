@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, P } from 'flowbite-svelte';
+	import { Button, P, Tooltip } from 'flowbite-svelte';
 	import TwistyPlayer from '../TwistyPlayer.svelte';
 	import {
 		advanceToNextTrainCase,
@@ -270,12 +270,14 @@
 	<Button class="btn-icon-transparent" type="button" onclick={onPrevious}
 		><ArrowLeft class="size-8 text-primary-600 md:size-12" /></Button
 	>
+	<Tooltip placement="bottom">Previous Case</Tooltip>
 	<div class="min-w-48 text-center font-mono text-2xl font-semibold md:text-3xl">
 		{scramble}
 	</div>
 	<Button class="btn-icon-transparent" type="button" onclick={onNext}
 		><ArrowRight class="size-8 text-primary-600 md:size-12" /></Button
 	>
+	<Tooltip placement="bottom">Next Case</Tooltip>
 </div>
 
 <div
