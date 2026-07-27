@@ -34,10 +34,8 @@
 	];
 
 	const edgeOrientationOptions = [
-		{ value: 'oriented', name: 'Oriented (Matches F/B)' },
-		{ value: 'unoriented', name: 'Unoriented (Matches L/R)' },
-		{ value: 'solved', name: 'Solved' },
-		{ value: 'flipped', name: 'Flipped' }
+		{ value: 'oriented', name: 'Oriented' },
+		{ value: 'unoriented', name: 'Unoriented' }
 	];
 
 	function toggleSelection(array: string[], value: string) {
@@ -51,19 +49,23 @@
 
 	let filteredCases = $derived.by(() => {
 		const results: { groupId: GroupId; caseId: CaseId }[] = [];
-		
+
 		const hasCornerPositionFilter = selectedCornerPositions.length > 0;
 		const hasCornerOrientationFilter = selectedCornerOrientations.length > 0;
 		const hasEdgePositionFilter = selectedEdgePositions.length > 0;
 		const hasEdgeOrientationFilter = selectedEdgeOrientations.length > 0;
-		const hasSpecificFilters = hasCornerPositionFilter || hasCornerOrientationFilter || hasEdgePositionFilter || hasEdgeOrientationFilter;
+		const hasSpecificFilters =
+			hasCornerPositionFilter ||
+			hasCornerOrientationFilter ||
+			hasEdgePositionFilter ||
+			hasEdgeOrientationFilter;
 
 		for (const groupId of GROUP_IDS) {
 			if (selectedGroups.length > 0 && !selectedGroups.includes(groupId)) continue;
-			
+
 			const groupDef = GROUP_DEFINITIONS[groupId];
 			const groupCases = new Set<CaseId>();
-			groupDef.categories.forEach(cat => cat.cases.forEach(c => groupCases.add(c)));
+			groupDef.categories.forEach((cat) => cat.cases.forEach((c) => groupCases.add(c)));
 
 			const groupAttributes = CASE_ATTRIBUTES[groupId] || {};
 
@@ -76,15 +78,21 @@
 				const attrs = (groupAttributes as any)[caseId];
 				if (!attrs) continue;
 
-				if (hasCornerPositionFilter && !selectedCornerPositions.includes(attrs.cornerPosition)) continue;
-				if (hasCornerOrientationFilter && !selectedCornerOrientations.includes(attrs.cornerOrientation)) continue;
+				if (hasCornerPositionFilter && !selectedCornerPositions.includes(attrs.cornerPosition))
+					continue;
+				if (
+					hasCornerOrientationFilter &&
+					!selectedCornerOrientations.includes(attrs.cornerOrientation)
+				)
+					continue;
 				if (hasEdgePositionFilter && !selectedEdgePositions.includes(attrs.edgePosition)) continue;
-				if (hasEdgeOrientationFilter && !selectedEdgeOrientations.includes(attrs.edgeOrientation)) continue;
+				if (hasEdgeOrientationFilter && !selectedEdgeOrientations.includes(attrs.edgeOrientation))
+					continue;
 
 				results.push({ groupId, caseId });
 			}
 		}
-		
+
 		return results;
 	});
 </script>
@@ -322,9 +330,7 @@
 	<!-- Filtered Cases -->
 	<div class="mt-8">
 		{#if filteredCases.length === 0}
-			<div class="text-center text-gray-500 dark:text-gray-400">
-				No cases match your filters.
-			</div>
+			<div class="text-center text-gray-500 dark:text-gray-400">No cases match your filters.</div>
 		{:else}
 			<div class="flex flex-wrap gap-2">
 				{#each filteredCases as { groupId, caseId } (`${groupId}-${caseId}`)}

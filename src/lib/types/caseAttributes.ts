@@ -3,7 +3,7 @@ import type { GroupId, CaseId } from './group';
 export type CornerPosition = 'top' | 'bottom_correct' | 'bottom_wrong';
 export type CornerOrientation = 'up' | 'front_back' | 'side' | 'solved';
 export type EdgePosition = 'top' | 'solved_slot' | 'wrong_slot';
-export type EdgeOrientation = 'oriented' | 'unoriented' | 'solved' | 'flipped';
+export type EdgeOrientation = 'oriented' | 'unoriented';
 
 export interface CaseAttributes {
 	cornerPosition: CornerPosition;
@@ -180,31 +180,31 @@ export const CASE_ATTRIBUTES: Partial<Record<GroupId, Record<CaseId, CaseAttribu
 			cornerPosition: 'top',
 			cornerOrientation: 'up',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'solved'
+			edgeOrientation: 'oriented'
 		},
 		33: {
 			cornerPosition: 'top',
 			cornerOrientation: 'front_back',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'solved'
+			edgeOrientation: 'oriented'
 		},
 		34: {
 			cornerPosition: 'top',
 			cornerOrientation: 'side',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'solved'
+			edgeOrientation: 'oriented'
 		},
 		38: {
 			cornerPosition: 'bottom_correct',
 			cornerOrientation: 'front_back',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'solved'
+			edgeOrientation: 'oriented'
 		},
 		39: {
 			cornerPosition: 'bottom_correct',
 			cornerOrientation: 'side',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'solved'
+			edgeOrientation: 'oriented'
 		},
 
 		// Edge flipped (Corner on top)
@@ -212,37 +212,37 @@ export const CASE_ATTRIBUTES: Partial<Record<GroupId, Record<CaseId, CaseAttribu
 			cornerPosition: 'top',
 			cornerOrientation: 'up',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 		35: {
 			cornerPosition: 'top',
 			cornerOrientation: 'front_back',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 		36: {
 			cornerPosition: 'top',
 			cornerOrientation: 'side',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 		37: {
 			cornerPosition: 'bottom_correct',
 			cornerOrientation: 'solved',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 		40: {
 			cornerPosition: 'bottom_correct',
 			cornerOrientation: 'front_back',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 		41: {
 			cornerPosition: 'bottom_correct',
 			cornerOrientation: 'side',
 			edgePosition: 'solved_slot',
-			edgeOrientation: 'flipped'
+			edgeOrientation: 'unoriented'
 		},
 
 		// Corner on Bottom / Edge on Top / Edge oriented
