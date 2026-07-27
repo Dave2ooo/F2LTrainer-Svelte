@@ -18,7 +18,7 @@ export interface FilterCasesState {
 export interface GlobalState {
 	categoriesOpenedObj: Record<GroupId, boolean[]>;
 	view: View;
-	selectedGroup: GroupId;
+	selectedGroup: GroupId | 'filter';
 	playOnAlgChange: boolean;
 	showDetails: boolean;
 	trainHideTwistyPlayer: boolean;

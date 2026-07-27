@@ -6,12 +6,10 @@
 	import { globalState } from '$lib/globalState.svelte';
 	import { Funnel } from '@lucide/svelte';
 
-	let selectedTab: GroupId | 'filter' = $state(globalState.selectedGroup);
+	let selectedTab = $state(globalState.selectedGroup);
 
 	$effect(() => {
-		if (selectedTab !== 'filter') {
-			globalState.selectedGroup = selectedTab as GroupId;
-		}
+		globalState.selectedGroup = selectedTab;
 	});
 </script>
 
@@ -39,7 +37,7 @@
 			</span>
 		{/snippet}
 		<FilterComponent
-			onJumpToGroup={(groupId) => {
+			onJumpToGroup={(groupId: GroupId) => {
 				selectedTab = groupId;
 			}}
 		/>

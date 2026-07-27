@@ -19,7 +19,7 @@ const createCollapsedCategories = (): Record<GroupId, boolean[]> =>
 interface EphemeralState {
 	view: 'select' | 'train';
 	categoriesOpenedObj: Record<GroupId, boolean[]>;
-	selectedGroup: GroupId;
+	selectedGroup: GroupId | 'filter';
 	playOnAlgChange: boolean;
 	showDetails: boolean;
 	hasUsedTimer: boolean;
