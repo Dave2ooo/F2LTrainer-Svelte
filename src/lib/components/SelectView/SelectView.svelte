@@ -38,6 +38,10 @@
 				<span class="hidden lg:inline">Filter Cases</span>
 			</span>
 		{/snippet}
-		<FilterComponent onJumpToGroup={(groupId) => { selectedTab = groupId; }} />
+		<FilterComponent
+			onJumpToGroup={(groupId) => {
+				selectedTab = groupId;
+			}}
+		/>
 	</TabItem>
 </Tabs>

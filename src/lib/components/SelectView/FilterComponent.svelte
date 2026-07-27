@@ -76,14 +76,22 @@
 			const el = document.getElementById(`case-${groupId}-${caseId}`);
 			if (el) {
 				el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-				
+
 				// Apply highlight visualization
-				el.classList.add('transition-all', 'duration-500', 'ring-4', 'ring-primary-500', 'scale-105', 'z-10', 'rounded-2xl');
-				
+				el.classList.add(
+					'transition-all',
+					'duration-500',
+					'ring-4',
+					'ring-primary-500',
+					'scale-105',
+					'z-10',
+					'rounded-2xl'
+				);
+
 				// Remove highlight after a delay, but leave transition classes to fade out
 				setTimeout(() => {
 					el.classList.remove('ring-4', 'ring-primary-500', 'scale-105', 'z-10');
-					
+
 					// Clean up transition classes after fade out finishes
 					setTimeout(() => {
 						el.classList.remove('transition-all', 'duration-500', 'rounded-2xl');
