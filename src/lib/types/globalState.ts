@@ -7,6 +7,14 @@ export type HintStickering = 'f2l' | 'fully' | 'centers-only';
 
 export type SessionSettingsTab = 'selection' | 'training' | 'appearance';
 
+export interface FilterCasesState {
+	groups: string[];
+	cornerPositions: string[];
+	cornerOrientations: string[];
+	edgePositions: string[];
+	edgeOrientations: string[];
+}
+
 export interface GlobalState {
 	categoriesOpenedObj: Record<GroupId, boolean[]>;
 	view: View;
@@ -26,4 +34,5 @@ export interface GlobalState {
 	showAdvancedTraining: boolean;
 	showAdvancedAppearance: boolean;
 	sessionSettingsTab: SessionSettingsTab;
+	filterCases: FilterCasesState;
 }

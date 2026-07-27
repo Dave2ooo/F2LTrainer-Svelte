@@ -2,15 +2,17 @@
 	import { Button, Dropdown, Checkbox, Badge } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
 	import { CASE_ATTRIBUTES } from '$lib/types/caseAttributes';
+	import { globalState } from '$lib/globalState.svelte';
 	import CaseCard from '$lib/components/SelectView/CaseCard.svelte';
 	import { ChevronDown } from '@lucide/svelte';
 
 	// Filter state: arrays of selected values
-	let selectedGroups = $state<string[]>([]);
-	let selectedCornerPositions = $state<string[]>([]);
-	let selectedCornerOrientations = $state<string[]>([]);
-	let selectedEdgePositions = $state<string[]>([]);
-	let selectedEdgeOrientations = $state<string[]>([]);
+	const getFilter = () => globalState.filterCases;
+	let selectedGroups = $derived(getFilter().groups);
+	let selectedCornerPositions = $derived(getFilter().cornerPositions);
+	let selectedCornerOrientations = $derived(getFilter().cornerOrientations);
+	let selectedEdgePositions = $derived(getFilter().edgePositions);
+	let selectedEdgeOrientations = $derived(getFilter().edgeOrientations);
 
 	const groupOptions = GROUP_IDS.map((id) => ({ value: id, name: GROUP_DEFINITIONS[id].name }));
 
