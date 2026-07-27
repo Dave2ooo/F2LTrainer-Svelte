@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Dropdown, Checkbox, Badge } from 'flowbite-svelte';
+	import { Button, Dropdown, Checkbox, Badge, Hr } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
 	import { CASE_ATTRIBUTES } from '$lib/types/caseAttributes';
 	import { globalState } from '$lib/globalState.svelte';
@@ -329,8 +329,10 @@
 		</div>
 	</div>
 
+	<Hr class="mx-auto my-4 h-1 w-full rounded border-0 bg-gray-300 dark:bg-gray-600" />
+
 	<!-- Filtered Cases -->
-	<div class="mt-8">
+	<div class="mt-4">
 		{#if filteredCases.length === 0}
 			<div class="text-center text-gray-500 dark:text-gray-400">No cases match your filters.</div>
 		{:else}
