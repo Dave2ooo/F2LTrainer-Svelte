@@ -23,10 +23,9 @@
 	];
 
 	const cornerOrientationOptions = [
-		{ value: 'up', name: 'Facing Up' },
+		{ value: 'up_down', name: 'Facing Up/Down' },
 		{ value: 'front_back', name: 'Facing Front/Back' },
-		{ value: 'side', name: 'Facing Left/Right' },
-		{ value: 'solved', name: 'Solved' }
+		{ value: 'side', name: 'Facing Left/Right' }
 	];
 
 	const edgePositionOptions = [
