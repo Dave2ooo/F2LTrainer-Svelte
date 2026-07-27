@@ -18,7 +18,7 @@
 	import CaseStatsModal from '../Modals/CaseStatsModal.svelte';
 	import { type Side, OPPOSITE_SIDE } from '$lib/types/Side';
 	import { Button } from 'flowbite-svelte';
-	import { Ellipsis, Pointer } from '@lucide/svelte';
+	import { Ellipsis, Pointer, ArrowRight } from '@lucide/svelte';
 	import { statisticsState } from '$lib/statisticsState.svelte';
 	import { getSolvesForCase } from '$lib/utils/statistics';
 
@@ -30,10 +30,14 @@
 
 	let {
 		groupId,
-		caseId
+		caseId,
+		showJumpButton = false,
+		onJumpClick
 	}: {
 		groupId: GroupId;
 		caseId: CaseId;
+		showJumpButton?: boolean;
+		onJumpClick?: () => void;
 	} = $props();
 
 	let side = $state<Side>('right');
@@ -170,11 +174,23 @@
 			</div>
 		{/if}
 	</div>
-	<Button
-		class="case-edit-btn absolute top-1 right-1 z-10 bg-transparent p-1 transition-opacity hover:bg-transparent focus:pointer-events-auto focus:bg-transparent focus:opacity-100 focus:ring-2 focus:ring-primary-600 focus:outline-none sm:top-0 sm:right-0 dark:bg-transparent dark:hover:bg-transparent"
-		type="button"
-		onclick={handleEditAlgClick}><Ellipsis class="size-6 text-primary-600 md:size-7" /></Button
-	>
+	<div class="absolute top-1 right-1 z-10 flex sm:top-0 sm:right-0">
+		{#if showJumpButton}
+			<Button
+				class="case-edit-btn bg-transparent p-1 transition-opacity hover:bg-transparent focus:pointer-events-auto focus:bg-transparent focus:opacity-100 focus:ring-2 focus:ring-primary-600 focus:outline-none dark:bg-transparent dark:hover:bg-transparent"
+				type="button"
+				onclick={(e: MouseEvent) => {
+					e.stopPropagation();
+					if (onJumpClick) onJumpClick();
+				}}><ArrowRight class="size-6 text-primary-600 md:size-7" /></Button
+			>
+		{/if}
+		<Button
+			class="case-edit-btn bg-transparent p-1 transition-opacity hover:bg-transparent focus:pointer-events-auto focus:bg-transparent focus:opacity-100 focus:ring-2 focus:ring-primary-600 focus:outline-none dark:bg-transparent dark:hover:bg-transparent"
+			type="button"
+			onclick={handleEditAlgClick}><Ellipsis class="size-6 text-primary-600 md:size-7" /></Button
+		>
+	</div>
 	<!-- 	<div class="flex flex-col gap-1">
 		<Button onclick={handleMirrorClick}>Mirror</Button>
 		<Button onclick={handleEditAlgClick}>Edit Algorithm</Button>

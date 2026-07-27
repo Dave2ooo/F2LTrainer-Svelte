@@ -1,10 +1,17 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import { Button, Dropdown, Checkbox, Badge, Hr } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
 	import { CASE_ATTRIBUTES } from '$lib/types/caseAttributes';
 	import { globalState } from '$lib/globalState.svelte';
 	import CaseCard from '$lib/components/SelectView/CaseCard.svelte';
 	import { ChevronDown } from '@lucide/svelte';
+
+	let {
+		onJumpToGroup
+	}: {
+		onJumpToGroup?: (groupId: GroupId) => void;
+	} = $props();
 
 	// Filter state: arrays of selected values
 	const getFilter = () => globalState.filterCases;
@@ -46,6 +53,44 @@
 		} else {
 			array.splice(index, 1);
 		}
+	}
+
+	async function handleJumpToCase(groupId: GroupId, caseId: CaseId) {
+		const groupDef = GROUP_DEFINITIONS[groupId];
+		const categoryIndex = groupDef.categories.findIndex((c) => c.cases.includes(caseId));
+
+		if (categoryIndex !== -1) {
+			globalState.categoriesOpenedObj[groupId][categoryIndex] = true;
+		}
+
+		if (onJumpToGroup) {
+			onJumpToGroup(groupId);
+		} else {
+			globalState.selectedGroup = groupId;
+		}
+
+		await tick();
+
+		// Wait slightly for the accordion to animate open before scrolling
+		setTimeout(() => {
+			const el = document.getElementById(`case-${groupId}-${caseId}`);
+			if (el) {
+				el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				
+				// Apply highlight visualization
+				el.classList.add('transition-all', 'duration-500', 'ring-4', 'ring-primary-500', 'scale-105', 'z-10', 'rounded-2xl');
+				
+				// Remove highlight after a delay, but leave transition classes to fade out
+				setTimeout(() => {
+					el.classList.remove('ring-4', 'ring-primary-500', 'scale-105', 'z-10');
+					
+					// Clean up transition classes after fade out finishes
+					setTimeout(() => {
+						el.classList.remove('transition-all', 'duration-500', 'rounded-2xl');
+					}, 500);
+				}, 1500);
+			}
+		}, 300);
 	}
 
 	let filteredCases = $derived.by(() => {
@@ -338,7 +383,12 @@
 			<div class="flex flex-wrap gap-2">
 				{#each filteredCases as { groupId, caseId } (`${groupId}-${caseId}`)}
 					<div class="w-full sm:w-auto">
-						<CaseCard {groupId} {caseId} />
+						<CaseCard
+							{groupId}
+							{caseId}
+							showJumpButton={true}
+							onJumpClick={() => handleJumpToCase(groupId, caseId)}
+						/>
 					</div>
 				{/each}
 			</div>
