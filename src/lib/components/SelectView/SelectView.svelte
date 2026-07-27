@@ -1,19 +1,24 @@
 <script lang="ts">
 	import { Tabs, TabItem } from 'flowbite-svelte';
 	import GroupComponent from '$lib/components/SelectView/GroupComponent.svelte';
+	import FilterComponent from '$lib/components/SelectView/FilterComponent.svelte';
 	import { GROUP_DEFINITIONS, GROUP_IDS, type GroupId } from '$lib/types/group';
 	import { globalState } from '$lib/globalState.svelte';
+	import { Funnel } from '@lucide/svelte';
 
-	let selectedGroup: GroupId = $state(globalState.selectedGroup);
+	let selectedTab: GroupId | 'filter' = $state(globalState.selectedGroup);
 
 	$effect(() => {
-		globalState.selectedGroup = selectedGroup;
+		if (selectedTab !== 'filter') {
+			globalState.selectedGroup = selectedTab as GroupId;
+		}
 	});
 </script>
 
 <Tabs
-	bind:selected={selectedGroup}
+	bind:selected={selectedTab as any}
 	tabStyle="underline"
+	class="items-end"
 	classes={{
 		content: 'p-0 bg-gray-50 rounded-lg dark:bg-gray-800 mt-0'
 	}}
@@ -26,4 +31,13 @@
 			<GroupComponent {groupId} />
 		</TabItem>
 	{/each}
+	<TabItem key="filter">
+		{#snippet titleSlot()}
+			<span class="text-base font-bold md:text-lg whitespace-nowrap">
+				<Funnel size={18} class="inline-block align-text-bottom mr-1" />
+				<span class="hidden lg:inline">Filter Cases</span>
+			</span>
+		{/snippet}
+		<FilterComponent />
+	</TabItem>
 </Tabs>

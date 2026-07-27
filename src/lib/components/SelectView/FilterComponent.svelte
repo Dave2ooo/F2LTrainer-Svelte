@@ -1,0 +1,285 @@
+<script lang="ts">
+	import { Button, Dropdown, Checkbox, Badge } from 'flowbite-svelte';
+	import { GROUP_IDS, GROUP_DEFINITIONS } from '$lib/types/group';
+	import { ChevronDown } from '@lucide/svelte';
+
+	// Filter state: arrays of selected values
+	let selectedGroups = $state<string[]>([]);
+	let selectedCornerPositions = $state<string[]>([]);
+	let selectedCornerOrientations = $state<string[]>([]);
+	let selectedEdgePositions = $state<string[]>([]);
+	let selectedEdgeOrientations = $state<string[]>([]);
+
+	const groupOptions = GROUP_IDS.map((id) => ({ value: id, name: GROUP_DEFINITIONS[id].name }));
+
+	const cornerPositionOptions = [
+		{ value: 'top', name: 'Top Layer' },
+		{ value: 'bottom_correct', name: 'Bottom Layer (Correct Slot)' },
+		{ value: 'bottom_wrong', name: 'Bottom Layer (Wrong Slot)' }
+	];
+
+	const cornerOrientationOptions = [
+		{ value: 'up', name: 'Facing Up' },
+		{ value: 'front_back', name: 'Facing Front/Back' },
+		{ value: 'side', name: 'Facing Left/Right' },
+		{ value: 'solved', name: 'Solved' }
+	];
+
+	const edgePositionOptions = [
+		{ value: 'top', name: 'Top Layer' },
+		{ value: 'solved_slot', name: 'Solved Slot' },
+		{ value: 'wrong_slot', name: 'Wrong Slot' }
+	];
+
+	const edgeOrientationOptions = [
+		{ value: 'oriented', name: 'Oriented (Matches F/B)' },
+		{ value: 'unoriented', name: 'Unoriented (Matches L/R)' },
+		{ value: 'solved', name: 'Solved' },
+		{ value: 'flipped', name: 'Flipped' }
+	];
+
+	function toggleSelection(array: string[], value: string) {
+		const index = array.indexOf(value);
+		if (index === -1) {
+			array.push(value);
+		} else {
+			array.splice(index, 1);
+		}
+	}
+</script>
+
+<div class="p-4 space-y-6">
+	<!-- Compact, responsive layout using Flexbox and Areas -->
+	<div class="flex flex-wrap gap-4 items-start">
+		<!-- Group Area -->
+		<div
+			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+		>
+			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Group</span>
+			<div>
+				<Button color="alternative" class="gap-2">
+					Group
+					{#if selectedGroups.length > 0}
+						<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedGroups.length}</Badge>
+					{/if}
+					<ChevronDown size={16} />
+				</Button>
+				<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
+					<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
+						<label
+							class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+						>
+							<Checkbox
+								checked={selectedGroups.length === 0}
+								onchange={() => (selectedGroups.length = 0)}
+								class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+							/>
+							<span class="text-base font-medium text-gray-900 dark:text-gray-100">Any</span>
+						</label>
+						<hr class="my-1 border-gray-200 dark:border-gray-600" />
+						{#each groupOptions as option}
+							<label
+								class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+							>
+								<Checkbox
+									checked={selectedGroups.includes(option.value)}
+									onchange={() => toggleSelection(selectedGroups, option.value)}
+									class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+								/>
+								<span class="text-base font-medium text-gray-900 dark:text-gray-100"
+									>{option.name}</span
+								>
+							</label>
+						{/each}
+					</div>
+				</Dropdown>
+			</div>
+		</div>
+
+		<!-- Corner Area -->
+		<div
+			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+		>
+			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Corner</span>
+			<div class="flex flex-wrap gap-2 md:gap-4">
+				<!-- Corner Position Filter -->
+				<div>
+					<Button color="alternative" class="gap-2">
+						Corner Position
+						{#if selectedCornerPositions.length > 0}
+							<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedCornerPositions.length}</Badge
+							>
+						{/if}
+						<ChevronDown size={16} />
+					</Button>
+					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
+						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
+							<label
+								class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+							>
+								<Checkbox
+									checked={selectedCornerPositions.length === 0}
+									onchange={() => (selectedCornerPositions.length = 0)}
+									class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+								/>
+								<span class="text-base font-medium text-gray-900 dark:text-gray-100">Any</span>
+							</label>
+							<hr class="my-1 border-gray-200 dark:border-gray-600" />
+							{#each cornerPositionOptions as option}
+								<label
+									class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+								>
+									<Checkbox
+										checked={selectedCornerPositions.includes(option.value)}
+										onchange={() => toggleSelection(selectedCornerPositions, option.value)}
+										class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+									/>
+									<span class="text-base font-medium text-gray-900 dark:text-gray-100"
+										>{option.name}</span
+									>
+								</label>
+							{/each}
+						</div>
+					</Dropdown>
+				</div>
+
+				<!-- Corner Orientation Filter -->
+				<div>
+					<Button color="alternative" class="gap-2">
+						Corner Orientation
+						{#if selectedCornerOrientations.length > 0}
+							<Badge color="blue" class="ml-1 px-1.5 py-0.5"
+								>{selectedCornerOrientations.length}</Badge
+							>
+						{/if}
+						<ChevronDown size={16} />
+					</Button>
+					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
+						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
+							<label
+								class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+							>
+								<Checkbox
+									checked={selectedCornerOrientations.length === 0}
+									onchange={() => (selectedCornerOrientations.length = 0)}
+									class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+								/>
+								<span class="text-base font-medium text-gray-900 dark:text-gray-100">Any</span>
+							</label>
+							<hr class="my-1 border-gray-200 dark:border-gray-600" />
+							{#each cornerOrientationOptions as option}
+								<label
+									class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+								>
+									<Checkbox
+										checked={selectedCornerOrientations.includes(option.value)}
+										onchange={() => toggleSelection(selectedCornerOrientations, option.value)}
+										class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+									/>
+									<span class="text-base font-medium text-gray-900 dark:text-gray-100"
+										>{option.name}</span
+									>
+								</label>
+							{/each}
+						</div>
+					</Dropdown>
+				</div>
+			</div>
+		</div>
+
+		<!-- Edge Area -->
+		<div
+			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+		>
+			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Edge</span>
+			<div class="flex flex-wrap gap-2 md:gap-4">
+				<!-- Edge Position Filter -->
+				<div>
+					<Button color="alternative" class="gap-2">
+						Edge Position
+						{#if selectedEdgePositions.length > 0}
+							<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedEdgePositions.length}</Badge>
+						{/if}
+						<ChevronDown size={16} />
+					</Button>
+					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
+						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
+							<label
+								class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+							>
+								<Checkbox
+									checked={selectedEdgePositions.length === 0}
+									onchange={() => (selectedEdgePositions.length = 0)}
+									class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+								/>
+								<span class="text-base font-medium text-gray-900 dark:text-gray-100">Any</span>
+							</label>
+							<hr class="my-1 border-gray-200 dark:border-gray-600" />
+							{#each edgePositionOptions as option}
+								<label
+									class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+								>
+									<Checkbox
+										checked={selectedEdgePositions.includes(option.value)}
+										onchange={() => toggleSelection(selectedEdgePositions, option.value)}
+										class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+									/>
+									<span class="text-base font-medium text-gray-900 dark:text-gray-100"
+										>{option.name}</span
+									>
+								</label>
+							{/each}
+						</div>
+					</Dropdown>
+				</div>
+
+				<!-- Edge Orientation Filter -->
+				<div>
+					<Button color="alternative" class="gap-2">
+						Edge Orientation
+						{#if selectedEdgeOrientations.length > 0}
+							<Badge color="blue" class="ml-1 px-1.5 py-0.5"
+								>{selectedEdgeOrientations.length}</Badge
+							>
+						{/if}
+						<ChevronDown size={16} />
+					</Button>
+					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
+						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
+							<label
+								class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+							>
+								<Checkbox
+									checked={selectedEdgeOrientations.length === 0}
+									onchange={() => (selectedEdgeOrientations.length = 0)}
+									class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+								/>
+								<span class="text-base font-medium text-gray-900 dark:text-gray-100">Any</span>
+							</label>
+							<hr class="my-1 border-gray-200 dark:border-gray-600" />
+							{#each edgeOrientationOptions as option}
+								<label
+									class="flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-600 !border-none"
+								>
+									<Checkbox
+										checked={selectedEdgeOrientations.includes(option.value)}
+										onchange={() => toggleSelection(selectedEdgeOrientations, option.value)}
+										class="me-2 cursor-pointer focus:ring-primary-500 dark:focus:ring-primary-600"
+									/>
+									<span class="text-base font-medium text-gray-900 dark:text-gray-100"
+										>{option.name}</span
+									>
+								</label>
+							{/each}
+						</div>
+					</Dropdown>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Filtered Cases will go here later -->
+	<div class="mt-8 text-center text-gray-500 dark:text-gray-400">
+		Filtered cases will appear here.
+	</div>
+</div>
