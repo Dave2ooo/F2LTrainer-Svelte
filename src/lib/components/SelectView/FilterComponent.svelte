@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { Button, Dropdown, Checkbox, Badge, Hr } from 'flowbite-svelte';
+	import { Button, Dropdown, Checkbox, Badge, Hr, Label } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
 	import { CASE_ATTRIBUTES } from '$lib/types/caseAttributes';
 	import { globalState } from '$lib/globalState.svelte';
@@ -45,6 +45,14 @@
 		{ value: 'oriented', name: 'Oriented' },
 		{ value: 'unoriented', name: 'Unoriented' }
 	];
+
+	function getFilterSummary(selectedValues: string[], options: { value: string; name: string }[]) {
+		if (selectedValues.length === 0) return 'Any';
+		return selectedValues
+			.map((val) => options.find((o) => o.value === val)?.name)
+			.filter(Boolean)
+			.join(', ');
+	}
 
 	function toggleSelection(array: string[], value: string) {
 		const index = array.indexOf(value);
@@ -153,19 +161,24 @@
 
 <div class="p-4 space-y-6">
 	<!-- Compact, responsive layout using Flexbox and Areas -->
-	<div class="flex flex-wrap gap-4 items-start">
+	<div class="flex flex-wrap gap-4 items-start m-0">
 		<!-- Group Area -->
 		<div
 			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
-			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Group</span>
+			<Label class="text-sm font-semibold mb-1">Group</Label>
 			<div>
-				<Button color="alternative" class="gap-2">
-					Group
-					{#if selectedGroups.length > 0}
-						<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedGroups.length}</Badge>
-					{/if}
-					<ChevronDown size={16} />
+				<Button
+					color="alternative"
+					class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+				>
+					<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
+						<span class="font-bold text-sm text-gray-900 dark:text-white">Group</span>
+						<span class="text-xs text-gray-500 dark:text-gray-400 font-normal truncate w-full"
+							>{getFilterSummary(selectedGroups, groupOptions)}</span
+						>
+					</div>
+					<ChevronDown size={16} class="shrink-0 text-gray-500" />
 				</Button>
 				<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
 					<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
@@ -203,17 +216,21 @@
 		<div
 			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
-			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Corner</span>
+			<Label class="text-sm font-semibold mb-1">Corner</Label>
 			<div class="flex flex-wrap gap-2 md:gap-4">
 				<!-- Corner Position Filter -->
 				<div>
-					<Button color="alternative" class="gap-2">
-						Corner Position
-						{#if selectedCornerPositions.length > 0}
-							<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedCornerPositions.length}</Badge
+					<Button
+						color="alternative"
+						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+					>
+						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
+							<span class="font-bold text-sm text-gray-900 dark:text-white">Position</span>
+							<span class="text-xs text-gray-500 dark:text-gray-400 font-normal truncate w-full"
+								>{getFilterSummary(selectedCornerPositions, cornerPositionOptions)}</span
 							>
-						{/if}
-						<ChevronDown size={16} />
+						</div>
+						<ChevronDown size={16} class="shrink-0 text-gray-500" />
 					</Button>
 					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
 						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
@@ -248,14 +265,17 @@
 
 				<!-- Corner Orientation Filter -->
 				<div>
-					<Button color="alternative" class="gap-2">
-						Corner Orientation
-						{#if selectedCornerOrientations.length > 0}
-							<Badge color="blue" class="ml-1 px-1.5 py-0.5"
-								>{selectedCornerOrientations.length}</Badge
+					<Button
+						color="alternative"
+						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+					>
+						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
+							<span class="font-bold text-sm text-gray-900 dark:text-white">Orientation</span>
+							<span class="text-xs text-gray-500 dark:text-gray-400 font-normal truncate w-full"
+								>{getFilterSummary(selectedCornerOrientations, cornerOrientationOptions)}</span
 							>
-						{/if}
-						<ChevronDown size={16} />
+						</div>
+						<ChevronDown size={16} class="shrink-0 text-gray-500" />
 					</Button>
 					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
 						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
@@ -294,16 +314,21 @@
 		<div
 			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
-			<span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Edge</span>
+			<Label class="text-sm font-semibold mb-1">Edge</Label>
 			<div class="flex flex-wrap gap-2 md:gap-4">
 				<!-- Edge Position Filter -->
 				<div>
-					<Button color="alternative" class="gap-2">
-						Edge Position
-						{#if selectedEdgePositions.length > 0}
-							<Badge color="blue" class="ml-1 px-1.5 py-0.5">{selectedEdgePositions.length}</Badge>
-						{/if}
-						<ChevronDown size={16} />
+					<Button
+						color="alternative"
+						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+					>
+						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
+							<span class="font-bold text-sm text-gray-900 dark:text-white">Position</span>
+							<span class="text-xs text-gray-500 dark:text-gray-400 font-normal truncate w-full"
+								>{getFilterSummary(selectedEdgePositions, edgePositionOptions)}</span
+							>
+						</div>
+						<ChevronDown size={16} class="shrink-0 text-gray-500" />
 					</Button>
 					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
 						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
@@ -338,14 +363,17 @@
 
 				<!-- Edge Orientation Filter -->
 				<div>
-					<Button color="alternative" class="gap-2">
-						Edge Orientation
-						{#if selectedEdgeOrientations.length > 0}
-							<Badge color="blue" class="ml-1 px-1.5 py-0.5"
-								>{selectedEdgeOrientations.length}</Badge
+					<Button
+						color="alternative"
+						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+					>
+						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
+							<span class="font-bold text-sm text-gray-900 dark:text-white">Orientation</span>
+							<span class="text-xs text-gray-500 dark:text-gray-400 font-normal truncate w-full"
+								>{getFilterSummary(selectedEdgeOrientations, edgeOrientationOptions)}</span
 							>
-						{/if}
-						<ChevronDown size={16} />
+						</div>
+						<ChevronDown size={16} class="shrink-0 text-gray-500" />
 					</Button>
 					<Dropdown class="w-64 overflow-hidden rounded-xl shadow-xl !border-none">
 						<div class="flex max-h-[300px] flex-col overflow-y-auto p-2">
@@ -381,7 +409,7 @@
 		</div>
 	</div>
 
-	<Hr class="mx-auto my-4 h-1 w-full rounded border-0 bg-gray-300 dark:bg-gray-600" />
+	<Hr class="mx-auto my-2 h-1 w-full rounded border-0 bg-gray-300 dark:bg-gray-600" />
 
 	<!-- Filtered Cases -->
 	<div class="mt-4">
