@@ -7,12 +7,19 @@ export type HintStickering = 'f2l' | 'fully' | 'centers-only';
 
 export type SessionSettingsTab = 'selection' | 'training' | 'appearance';
 
+import type {
+	CornerPosition,
+	CornerOrientation,
+	EdgePosition,
+	EdgeOrientation
+} from './caseAttributes';
+
 export interface FilterCasesState {
-	groups: string[];
-	cornerPositions: string[];
-	cornerOrientations: string[];
-	edgePositions: string[];
-	edgeOrientations: string[];
+	groups: GroupId[];
+	cornerPositions: CornerPosition[];
+	cornerOrientations: CornerOrientation[];
+	edgePositions: EdgePosition[];
+	edgeOrientations: EdgeOrientation[];
 }
 
 export interface GlobalState {
