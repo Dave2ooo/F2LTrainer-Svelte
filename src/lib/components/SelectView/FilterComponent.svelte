@@ -2,7 +2,13 @@
 	import { tick } from 'svelte';
 	import { Button, Dropdown, Checkbox, Hr, Label } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
-	import { CASE_ATTRIBUTES, type CornerPosition, type CornerOrientation, type EdgePosition, type EdgeOrientation } from '$lib/types/caseAttributes';
+	import {
+		CASE_ATTRIBUTES,
+		type CornerPosition,
+		type CornerOrientation,
+		type EdgePosition,
+		type EdgeOrientation
+	} from '$lib/types/caseAttributes';
 	import { globalState } from '$lib/globalState.svelte';
 	import CaseCard from '$lib/components/SelectView/CaseCard.svelte';
 	import { ChevronDown } from '@lucide/svelte';
@@ -21,7 +27,10 @@
 	let selectedEdgePositions = $derived(getFilter().edgePositions);
 	let selectedEdgeOrientations = $derived(getFilter().edgeOrientations);
 
-	const groupOptions: { value: GroupId; name: string }[] = GROUP_IDS.map((id) => ({ value: id, name: GROUP_DEFINITIONS[id].name }));
+	const groupOptions: { value: GroupId; name: string }[] = GROUP_IDS.map((id) => ({
+		value: id,
+		name: GROUP_DEFINITIONS[id].name
+	}));
 
 	const cornerPositionOptions: { value: CornerPosition; name: string }[] = [
 		{ value: 'top', name: 'Top Layer' },
@@ -46,7 +55,10 @@
 		{ value: 'unoriented', name: 'Unoriented' }
 	];
 
-	function getFilterSummary<T extends string>(selectedValues: T[], options: { value: T; name: string }[]) {
+	function getFilterSummary<T extends string>(
+		selectedValues: T[],
+		options: { value: T; name: string }[]
+	) {
 		if (selectedValues.length === 0) return 'Any';
 		return selectedValues
 			.map((val) => options.find((o) => o.value === val)?.name)
