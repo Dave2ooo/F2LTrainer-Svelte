@@ -170,4 +170,27 @@
 	.modal-footer {
 		@apply mt-4 flex w-full justify-center gap-3;
 	}
+
+	/* ========================================
+	   ANIMATIONS
+	   ======================================== */
+
+	.case-wrapper {
+		transition:
+			opacity 0.5s ease-in-out,
+			transform 0.5s ease-in-out;
+	}
+
+	body.spotlighting-cases .case-wrapper {
+		opacity: 0.3;
+		pointer-events: none;
+	}
+
+	body.spotlighting-cases .case-wrapper.spotlight-target {
+		opacity: 1 !important;
+		z-index: 50;
+		position: relative;
+		pointer-events: auto;
+		transform: scale(1.05);
+	}
 }

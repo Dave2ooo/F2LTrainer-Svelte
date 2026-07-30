@@ -1,4 +1,4 @@
-import type { GlobalState, SessionSettingsTab } from '$lib/types/globalState';
+import type { GlobalState, SessionSettingsTab, FilterCasesState } from '$lib/types/globalState';
 import { GROUP_DEFINITIONS, GROUP_IDS, type GroupId } from './types/group';
 import { loadFromLocalStorage } from './utils/localStorage';
 
@@ -35,6 +35,7 @@ interface EphemeralState {
 	showAdvancedTraining: boolean;
 	showAdvancedAppearance: boolean;
 	sessionSettingsTab: SessionSettingsTab;
+	filterCases: FilterCasesState;
 }
 
 const defaultEphemeralState: EphemeralState = {
@@ -55,7 +56,14 @@ const defaultEphemeralState: EphemeralState = {
 	eoUnorientedColor: DEFAULT_EO_UNORIENTED_COLOR,
 	showAdvancedTraining: false,
 	showAdvancedAppearance: false,
-	sessionSettingsTab: 'selection'
+	sessionSettingsTab: 'selection',
+	filterCases: {
+		groups: [],
+		cornerPositions: [],
+		cornerOrientations: [],
+		edgePositions: [],
+		edgeOrientations: []
+	}
 };
 
 const persistedEphemeralState =
@@ -64,7 +72,12 @@ const persistedEphemeralState =
 // Initialize ephemeral state
 const ephemeralState = $state<EphemeralState>({
 	...defaultEphemeralState,
-	...(persistedEphemeralState || {})
+	...(persistedEphemeralState || {}),
+	selectedGroup:
+		(persistedEphemeralState?.selectedGroup as string) === 'filter'
+			? 'basic'
+			: persistedEphemeralState?.selectedGroup || defaultEphemeralState.selectedGroup,
+	filterCases: persistedEphemeralState?.filterCases || defaultEphemeralState.filterCases
 });
 
 // Create a proxy object that implements GlobalState interface
@@ -198,5 +211,12 @@ export const globalState: GlobalState = {
 	},
 	set sessionSettingsTab(v) {
 		ephemeralState.sessionSettingsTab = v;
+	},
+
+	get filterCases() {
+		return ephemeralState.filterCases;
+	},
+	set filterCases(v) {
+		ephemeralState.filterCases = v;
 	}
 };
