@@ -19,7 +19,7 @@ const createCollapsedCategories = (): Record<GroupId, boolean[]> =>
 interface EphemeralState {
 	view: 'select' | 'train';
 	categoriesOpenedObj: Record<GroupId, boolean[]>;
-	selectedGroup: GroupId | 'filter';
+	selectedGroup: GroupId;
 	playOnAlgChange: boolean;
 	showDetails: boolean;
 	hasUsedTimer: boolean;
@@ -73,6 +73,10 @@ const persistedEphemeralState =
 const ephemeralState = $state<EphemeralState>({
 	...defaultEphemeralState,
 	...(persistedEphemeralState || {}),
+	selectedGroup:
+		(persistedEphemeralState?.selectedGroup as string) === 'filter'
+			? 'basic'
+			: persistedEphemeralState?.selectedGroup || defaultEphemeralState.selectedGroup,
 	filterCases: persistedEphemeralState?.filterCases || defaultEphemeralState.filterCases
 });
 
