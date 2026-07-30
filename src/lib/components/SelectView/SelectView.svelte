@@ -20,7 +20,7 @@
 </script>
 
 <Tabs
-	bind:selected={selectedTab as any}
+	bind:selected={selectedTab}
 	tabStyle="underline"
 	class="items-end flex-wrap wrap-tabs"
 	classes={{

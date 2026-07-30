@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { Button, Dropdown, Checkbox, Badge, Hr, Label } from 'flowbite-svelte';
+	import { Button, Dropdown, Checkbox, Hr, Label } from 'flowbite-svelte';
 	import { GROUP_IDS, GROUP_DEFINITIONS, type GroupId, type CaseId } from '$lib/types/group';
-	import { CASE_ATTRIBUTES } from '$lib/types/caseAttributes';
+	import { CASE_ATTRIBUTES, type CornerPosition, type CornerOrientation, type EdgePosition, type EdgeOrientation } from '$lib/types/caseAttributes';
 	import { globalState } from '$lib/globalState.svelte';
 	import CaseCard from '$lib/components/SelectView/CaseCard.svelte';
 	import { ChevronDown } from '@lucide/svelte';
@@ -21,32 +21,32 @@
 	let selectedEdgePositions = $derived(getFilter().edgePositions);
 	let selectedEdgeOrientations = $derived(getFilter().edgeOrientations);
 
-	const groupOptions = GROUP_IDS.map((id) => ({ value: id, name: GROUP_DEFINITIONS[id].name }));
+	const groupOptions: { value: GroupId; name: string }[] = GROUP_IDS.map((id) => ({ value: id, name: GROUP_DEFINITIONS[id].name }));
 
-	const cornerPositionOptions = [
+	const cornerPositionOptions: { value: CornerPosition; name: string }[] = [
 		{ value: 'top', name: 'Top Layer' },
 		{ value: 'bottom_correct', name: 'Bottom Layer (Correct Slot)' },
 		{ value: 'bottom_wrong', name: 'Bottom Layer (Wrong Slot)' }
 	];
 
-	const cornerOrientationOptions = [
+	const cornerOrientationOptions: { value: CornerOrientation; name: string }[] = [
 		{ value: 'up_down', name: 'Facing Up/Down' },
 		{ value: 'front_back', name: 'Facing Front/Back' },
 		{ value: 'side', name: 'Facing Left/Right' }
 	];
 
-	const edgePositionOptions = [
+	const edgePositionOptions: { value: EdgePosition; name: string }[] = [
 		{ value: 'top', name: 'Top Layer' },
 		{ value: 'solved_slot', name: 'Solved Slot' },
 		{ value: 'wrong_slot', name: 'Wrong Slot' }
 	];
 
-	const edgeOrientationOptions = [
+	const edgeOrientationOptions: { value: EdgeOrientation; name: string }[] = [
 		{ value: 'oriented', name: 'Oriented' },
 		{ value: 'unoriented', name: 'Unoriented' }
 	];
 
-	function getFilterSummary(selectedValues: string[], options: { value: string; name: string }[]) {
+	function getFilterSummary<T extends string>(selectedValues: T[], options: { value: T; name: string }[]) {
 		if (selectedValues.length === 0) return 'Any';
 		return selectedValues
 			.map((val) => options.find((o) => o.value === val)?.name)
@@ -54,7 +54,7 @@
 			.join(', ');
 	}
 
-	function toggleSelection(array: string[], value: string) {
+	function toggleSelection<T extends string>(array: T[], value: T) {
 		const index = array.indexOf(value);
 		if (index === -1) {
 			array.push(value);
@@ -130,7 +130,7 @@
 			const groupCases = new Set<CaseId>();
 			groupDef.categories.forEach((cat) => cat.cases.forEach((c) => groupCases.add(c)));
 
-			const groupAttributes = CASE_ATTRIBUTES[groupId] || {};
+			const groupAttributes = CASE_ATTRIBUTES[groupId];
 
 			for (const caseId of groupCases) {
 				if (!hasSpecificFilters) {
@@ -138,7 +138,7 @@
 					continue;
 				}
 
-				const attrs = (groupAttributes as any)[caseId];
+				const attrs = groupAttributes?.[caseId];
 				if (!attrs) continue;
 
 				if (hasCornerPositionFilter && !selectedCornerPositions.includes(attrs.cornerPosition))
