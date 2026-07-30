@@ -176,7 +176,9 @@
 	   ======================================== */
 
 	.case-wrapper {
-		transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+		transition:
+			opacity 0.5s ease-in-out,
+			transform 0.5s ease-in-out;
 	}
 
 	body.spotlighting-cases .case-wrapper {
