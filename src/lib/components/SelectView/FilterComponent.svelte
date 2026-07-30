@@ -177,13 +177,13 @@
 	<div class="flex flex-wrap gap-4 items-start m-0">
 		<!-- Group Area -->
 		<div
-			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+			class="flex-1 min-w-[280px] flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
 			<Label class="text-sm font-semibold mb-1">Group</Label>
-			<div>
+			<div class="w-full">
 				<Button
 					color="alternative"
-					class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+					class="flex justify-between items-center w-full text-left px-3 py-2"
 				>
 					<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
 						<span class="font-bold text-sm text-gray-900 dark:text-white">Group</span>
@@ -227,15 +227,15 @@
 
 		<!-- Corner Area -->
 		<div
-			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+			class="flex-1 min-w-[280px] flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
 			<Label class="text-sm font-semibold mb-1">Corner</Label>
-			<div class="flex flex-wrap gap-2 md:gap-4">
+			<div class="flex flex-wrap gap-2 w-full">
 				<!-- Corner Position Filter -->
-				<div>
+				<div class="flex-1 min-w-[12rem]">
 					<Button
 						color="alternative"
-						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+						class="flex justify-between items-center w-full text-left px-3 py-2"
 					>
 						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
 							<span class="font-bold text-sm text-gray-900 dark:text-white">Position</span>
@@ -277,10 +277,10 @@
 				</div>
 
 				<!-- Corner Orientation Filter -->
-				<div>
+				<div class="flex-1 min-w-[12rem]">
 					<Button
 						color="alternative"
-						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+						class="flex justify-between items-center w-full text-left px-3 py-2"
 					>
 						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
 							<span class="font-bold text-sm text-gray-900 dark:text-white">Orientation</span>
@@ -325,15 +325,15 @@
 
 		<!-- Edge Area -->
 		<div
-			class="flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+			class="flex-1 min-w-[280px] flex flex-col gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
 		>
 			<Label class="text-sm font-semibold mb-1">Edge</Label>
-			<div class="flex flex-wrap gap-2 md:gap-4">
+			<div class="flex flex-wrap gap-2 w-full">
 				<!-- Edge Position Filter -->
-				<div>
+				<div class="flex-1 min-w-[12rem]">
 					<Button
 						color="alternative"
-						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+						class="flex justify-between items-center w-full text-left px-3 py-2"
 					>
 						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
 							<span class="font-bold text-sm text-gray-900 dark:text-white">Position</span>
@@ -375,10 +375,10 @@
 				</div>
 
 				<!-- Edge Orientation Filter -->
-				<div>
+				<div class="flex-1 min-w-[12rem]">
 					<Button
 						color="alternative"
-						class="flex justify-between items-center w-48 md:w-56 text-left px-3 py-2"
+						class="flex justify-between items-center w-full text-left px-3 py-2"
 					>
 						<div class="flex flex-col items-start overflow-hidden flex-1 mr-2">
 							<span class="font-bold text-sm text-gray-900 dark:text-white">Orientation</span>
