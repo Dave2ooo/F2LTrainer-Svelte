@@ -17,7 +17,7 @@
 
 <div class="flex flex-wrap gap-2">
 	{#each categoryCases as caseId}
-		<div id="case-{groupId}-{caseId}" class="w-full sm:w-auto">
+		<div id="case-{groupId}-{caseId}" class="w-full sm:w-auto case-wrapper">
 			<CaseCard {groupId} {caseId} />
 		</div>
 	{/each}

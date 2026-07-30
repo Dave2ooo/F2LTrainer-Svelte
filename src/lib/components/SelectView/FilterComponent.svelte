@@ -86,19 +86,20 @@
 				el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
 				// Apply highlight visualization
+				document.body.classList.add('spotlighting-cases');
 				el.classList.add(
+					'spotlight-target',
 					'transition-all',
 					'duration-500',
 					'ring-4',
 					'ring-primary-500',
-					'scale-105',
-					'z-10',
 					'rounded-2xl'
 				);
 
 				// Remove highlight after a delay, but leave transition classes to fade out
 				setTimeout(() => {
-					el.classList.remove('ring-4', 'ring-primary-500', 'scale-105', 'z-10');
+					document.body.classList.remove('spotlighting-cases');
+					el.classList.remove('spotlight-target', 'ring-4', 'ring-primary-500');
 
 					// Clean up transition classes after fade out finishes
 					setTimeout(() => {
