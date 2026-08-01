@@ -6,7 +6,7 @@ export const expertAlgorithms: AlgorithmCollection = {
 	1: ["R2 U' R2' U R2", "y2 L2' U' L2 U L2'", "y F' R' F2 R F"],
 	2: ["f' R' U R f", "y R' u' R u R", "y' L' u' L u L", "y2 f' D' L D f"],
 	3: ["y L2' U L2 U' L2'", "y' R2 U R2' U' R2", "F L F2' L' F'"],
-	4: ["y f L U' L' f'", "L u L' u' L'", "y2 R u R' u' R'", "y' f D R' D' f'"],
+	4: ["y f (L U' L') f'", "L u L' u' L'", "y2 R u R' u' R'", "y' f D R' D' f'"],
 	5: ["L2' u' L2 u L2'", "y' R2 u R2' u' R2", "y L2' u L2 u' L2'", "y2 R2 u' R2' u R2"],
 	6: [
 		"(L' u' L) U (L' u L)",
@@ -96,7 +96,7 @@ export const expertAlgorithms: AlgorithmCollection = {
 		"(R U' R') U' (R U R') (F U2 F')"
 	],
 	28: [
-		"(R U R') U2 (R U' R') f R f'",
+		"(R U R') U2 (R U' R') (f R f')",
 		"F' U' (R' U2 R) U (R' U' R) F",
 		"(R U' R') y (R U2 R') U (R U' R')",
 		"(R U' R') U (R U2 R') y (R U' R')"
@@ -110,7 +110,7 @@ export const expertAlgorithms: AlgorithmCollection = {
 	30: [
 		"(R U R') d' (L U' L') U (L U L')",
 		"(R U R') U' y' (R U' R') U (R U R')",
-		"(R U R') (L' U L) U' L F' L' F (L' U L)",
+		"(R U R') (L' U L) U' (L F' L' F) (L' U L)",
 		"(R U' R') y' U2 (R U2 R') U (R U' R')"
 	],
 	31: [

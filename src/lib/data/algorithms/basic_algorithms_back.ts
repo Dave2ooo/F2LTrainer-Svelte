@@ -3,10 +3,10 @@
 import type { AlgorithmCollection } from '..';
 
 export const basicAlgorithmsBack: AlgorithmCollection = {
-	1: ["r' U' R U M'", "U f R' f'", "y' U (L U' L')", "y U (R U' R')"],
+	1: ["r' U' R U M'", "U (f R' f')", "y' U (L U' L')", "y U (R U' R')"],
 	2: ["U' (R' U R)"],
 	3: ["(R' U' R)"],
-	4: ["f R f'", "y' (L U L')", "y (R U R')"],
+	4: ["(f R f')", "y' (L U L')", "y (R U R')"],
 	5: [
 		"U' (R' F R) U R' U' F' R",
 		"U r' (U R U' R') U' r",
@@ -39,18 +39,18 @@ export const basicAlgorithmsBack: AlgorithmCollection = {
 		"U R' F R' F' R2 U' (R' U R)",
 		"(R' U' R U' y) (R U' R' U) (R U' R')",
 		"(U R' U2' R) y (R U2' R' U) (R U' R')",
-		"y' L U' L' U' L U L' U2 L U L'"
+		"y' (L U' L') U' (L U L') U2 (L U L')"
 	],
 	24: [
 		"(R' U' R) U2 (R' U' R) U (R' U' R)",
 		"(R' U R U) (R' U' R) U2 (R' U' R)",
-		"U2 R2 U2' R U R' U R2",
+		"U2 R2 U2' (R U R') U R2",
 		"U' (R' U R U) (R' U R U') (R' U R)",
 		"y F (U R U' R') F' (R U' R')"
 	],
-	25: ["U R' U R' F R F' R U2 (R' U R)", "(U' R' U R) y U (R U' R')"],
-	26: ["R U R U R U' R' U' R'", "y U (R U' R') U' (F' U F)", "y U (R U' R') (F R' F' R)"],
-	27: ["y (R U' R' U) (R U' R')", "R' U2 R' F R F' R"],
+	25: ["U R' U (R' F R F') R U2 (R' U R)", "(U' R' U R) y U (R U' R')"],
+	26: ["R U R U (R U' R') U' R'", "y U (R U' R') U' (F' U F)", "y U (R U' R') (F R' F' R)"],
+	27: ["y (R U' R' U) (R U' R')", "R' U2 (R' F R F') R"],
 	28: ["(R' U R U') (R' U R)"],
 	29: ["(R' U' R U) (R' U' R)"],
 	30: ["y (R U R' U') (R U R')"],
