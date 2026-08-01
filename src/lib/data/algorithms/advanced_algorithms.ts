@@ -24,14 +24,13 @@ export const advancedAlgorithms: AlgorithmCollection = {
 	13: ["U2' R U R2' U' R2 U R'"], //"U (R U R') (L' U L)"
 	14: ["y (F' U2 F) (L' U' L)", "R' U2 R F' U' F", "y2 L' U2 L f' L' f"],
 	15: ["U (R U R') (L U L')", "U' (R U2 R') U' (L U L')", "y U (L' U L) (R' U R)"],
-	16: ["U2 F' (L U L') F", "y U2 L' (B U B') L", "y' U2 R' (F U F') R", "y2 f' U L U' f"],
+	16: ["U2 F' (L U L') F", "y U2 L' (B U B') L", "y' U2 R' (F U F') R"],
 	17: ["U' (R U' R') (L U' L')", "y U' (L' U' L) (R' U' R)", "y U (L' U2 L) U (R' U' R)"],
 	18: [
 		"U' (R U R') d' (R' U' R)",
 		"y U2' F (R' U' R) F'",
 		"U2' R (B' U' B) R'",
-		"y2 U2' L (F' U' F) L'",
-		"y' f U' R' U f'"
+		"y2 U2' L (F' U' F) L'"
 	],
 	19: ["U (R U' R') (L' U L)"],
 	20: ["y (L' U2 L) U' (L U L')", "y U2 (L' U L) U' (L U2 L')"],

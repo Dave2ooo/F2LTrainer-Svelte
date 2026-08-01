@@ -11,8 +11,7 @@ export const basicAlgorithms: AlgorithmCollection = {
 		"U' (F' U F)",
 		"d' L' U L",
 		"r U R' U' M",
-		"F l' U' l",
-		"y U' (f' L f)"
+		"F l' U' l"
 	],
 	3: ["y (L' U' L)", "y2 f' L' f", "y' (R' U' R)", "F' U' F"],
 	4: ["(R U R')", "y F U F'", "y' f R f'"],
@@ -155,9 +154,7 @@ export const basicAlgorithms: AlgorithmCollection = {
 		"F' L' U2 L F",
 		"y' U2 (R' U' R U') (R' U R)",
 		"y2 U' d' (R' U' R U') (R' U R)",
-		"r U' r' U2 r U r'",
-		"U F R U R' U' F' R U R' U2'",
-		"d2 y' R' U' R U' R' U R"
+		"r U' r' U2 r U r'"
 	],
 	23: [
 		"R U' R' U' (R U R') U2 (R U R')",
@@ -199,7 +196,6 @@ export const basicAlgorithms: AlgorithmCollection = {
 		"R' F' R U R U' R' F",
 		"(U') F' R U R' U' R' F R",
 		"(R U' R' U') (R U' R' U) (R U R')",
-		"y' (l' U' l U) (l F' l' F)",
 		"(U) (R' U' R' U') R2 (U R U R)",
 		"(U2) (R' U' R' U' R U R U R)",
 		"y U R' u' R U' R' U u R",
@@ -238,7 +234,7 @@ export const basicAlgorithms: AlgorithmCollection = {
 		"U2 (R U' R') y' (R' U' R)",
 		"M' U R U' r' U (R U' R')"
 	],
-	30: ["(R U R' U') (R U R')", "U2 (F' U F) (R U R')", "U' (R U2 R')U2 (R U R')"],
+	30: ["(R U R' U') (R U R')", "U2 (F' U F) (R U R')", "U' (R U2 R') U2 (R U R')"],
 	31: [
 		"U' (R' F R F') (R U' R')",
 		"(R U' R') d (R' U R)",

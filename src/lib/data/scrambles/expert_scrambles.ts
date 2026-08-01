@@ -172,7 +172,7 @@ export const expertScrambles: AlgorithmCollection = {
 		"R' D' U' F' U F2 D R",
 		"L' F' U F2 R' F' L R",
 		"R U2 R' F' U2 F2 U F'",
-		"L F2 L' F U2 F2 U F' ",
+		"L F2 L' F U2 F2 U F'",
 		"L' F' U L2 F' L2 F2 L",
 		"L' B' F' U' B U2 F L",
 		"L' F' L' U2 L U' F L "
