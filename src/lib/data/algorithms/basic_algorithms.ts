@@ -115,7 +115,11 @@ export const basicAlgorithms: AlgorithmCollection = {
 		"y' U R U2 R U' (R U R') U2 R'",
 		"y M U' R' F R U M' y'"
 	],
-	17: ["(R U2 R') U' (R U R')", "F' U' F U F' U' F U2 (R U' R')", "F' U' F U F' U' F U (R' F R F')"],
+	17: [
+		"(R U2 R') U' (R U R')",
+		"F' U' F U F' U' F U2 (R U' R')",
+		"F' U' F U F' U' F U (R' F R F')"
+	],
 	18: [
 		"y' (R' U2 R) U (R' U' R)",
 		"y (L' U2 L) U (L' U' L)",

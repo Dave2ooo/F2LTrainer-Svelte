@@ -34,7 +34,10 @@ describe('F2L Scrambles and Algorithms Validation', () => {
 								const scramble = getCaseScramble(caseDef, side, scrambleIndex);
 
 								for (let algIndex = 0; algIndex < algPool.length; algIndex++) {
-									const algorithmSelection: AlgorithmSelection = { left: algIndex, right: algIndex };
+									const algorithmSelection: AlgorithmSelection = {
+										left: algIndex,
+										right: algIndex
+									};
 									const customAlgorithm: CustomAlgorithm = { left: '', right: '' };
 									const alg = getCaseAlg(caseDef, algorithmSelection, customAlgorithm, side);
 
@@ -64,7 +67,10 @@ describe('F2L Scrambles and Algorithms Validation', () => {
 										console.log(`Scramble: ${scramble}`);
 										console.log(`Alg: ${alg}`);
 									}
-									expect(isSolved, `Group: ${groupId}, Case: ${caseId}, Side: ${side}, Scramble: ${scramble}, Alg: ${alg}`).toBe(true);
+									expect(
+										isSolved,
+										`Group: ${groupId}, Case: ${caseId}, Side: ${side}, Scramble: ${scramble}, Alg: ${alg}`
+									).toBe(true);
 								}
 							}
 						});
