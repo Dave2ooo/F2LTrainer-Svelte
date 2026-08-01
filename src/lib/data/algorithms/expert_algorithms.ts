@@ -44,5 +44,91 @@ export const expertAlgorithms: AlgorithmCollection = {
 		"(R' U' R) (F' U' F) U (R U' R')"
 	],
 	16: ["(R' F R U' F') U (R U' R')", "R U' R2' u' R' u R", "y2 L U' L2' u' L' u L"],
-	17: ["y (L F' L' U F) U' (L' U L)", "y L' U L2 u L u' L'", "y' R' U R2 u R u' R'"]
+	17: ["y (L F' L' U F) U' (L' U L)", "y L' U L2 u L u' L'", "y' R' U R2 u R u' R'"],
+	18: ["F' U R' U2 R F", "R' F R F' U R' U2 R", "R U' R' U' f R f'", "R U R' U' B U' B'"],
+	19: [
+		"R U' R2 U' R U' R' U' R",
+		"R U' R' U' R U' R2 U' R",
+		"r U' r' U2 r U r' d' R U R'",
+		"R U R y2 U2 L U L' U L2"
+	],
+	20: [
+		"F' U L' U L U' L U L' F",
+		"R U' R' U' R U' R' d' R' U' R",
+		"R U' R' y R' U R U R' U' R",
+		"F' U F L U L' U L U' L'"
+	],
+	21: [
+		"R U' R' U' L' U L U L' U' L",
+		"R U' R' U' R U' R' U2 L' U' L",
+		"M F M' U L' U L U' L' U L",
+		"r U' r' U2 r U r' d R U R'"
+	],
+	22: ["R U R' U' R U' R' U R' U' R", "R U' R' U R' U' R U' R' U R"],
+	23: [
+		"R U R' U' R U' R' f' L' f",
+		"R U' R' U f' U' L' U L' f",
+		"R U R' F R U R' U' F' L U2 L'",
+		"R U' R' y R' U' R U' R' U R"
+	],
+	24: [
+		"R U' R' U' L' U' L U' L' U L",
+		"R U R' U' R U' R' U' L' U' L",
+		"R U' R' F' r' F' r2 U r'",
+		"y' R' U R2 U R' U R U R'"
+	],
+	25: [
+		"F' R' U R U' R' U' R F",
+		"R U' R' U' R U R' U f R' f'",
+		"R U' R' U' R U R' r' U' R U M'",
+		"R U' R2 f' U' f R"
+	],
+	26: [
+		"R U' R' U' R U R' L U' L'",
+		"R U' R' U' R U M' B' r'",
+		"R U R' U' R U2 R' U L U L'",
+		"R U2 R' L U2 L' U' L U L'"
+	],
+	27: [
+		"R' F R2 U' R' U' R U R' U2 F'",
+		"R' F R F' U2 L' U L U' L' U' L",
+		"R U' R' U' R U R' U' F U' F'",
+		"R U' R' U' R U R' F U2 F'"
+	],
+	28: [
+		"R U R' U2 R U' R' f R f'",
+		"F' U' R' U2 R U R' U' R F",
+		"R U' R' y R U2 R' U R U' R'",
+		"R U' R' U R U2 R' y R U' R'"
+	],
+	29: [
+		"R U' R' U R U2 R' L U2 L'",
+		"R U' R' U' L U2 L' U L U' L'",
+		"R U R' L U' L' U L U L'",
+		"R U' R' U R U2 R' U' L U' L'"
+	],
+	30: [
+		"R U R' d' L U' L' U L U L'",
+		"R U R' U' y' R U' R' U R U R'",
+		"R U R' L' U L U' L F' L' F L' U L",
+		"R U' R' y' U2 R U2 R' U R U' R'"
+	],
+	31: [
+		"R U' R2 U2 R U R' U2 R",
+		"R U' R2 U2 R U2 R' U R",
+		"F R' F' R U' R U2 R2 U' R",
+		"R' F R F' R U' R' U R U' R' U y R U' R'"
+	],
+	32: [
+		"R U' R' d R' U2 R L' U L",
+		"F' U2 L' U2 L2 U L' F",
+		"R U' R' U y L' U2 L R' U R",
+		"R U' R' y U' R' U2 R U R' U2 R"
+	],
+	33: [
+		"R U' R' U2 L' U2 L U2 L' U L",
+		"y' R' U R2 U2 R' U2 R U' R'",
+		"y' R' U R2 U2 R' U' R U2 R'",
+		"R' F R F' R U' R' U R U' R' d' L U' L'"
+	]
 } as const;

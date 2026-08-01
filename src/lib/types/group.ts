@@ -331,11 +331,16 @@ const EXPERT_DEFINITION: GroupDefinition = {
 	id: 'expert',
 	name: 'Expert Cases',
 	editName: 'Expert',
-	numberCases: 17,
+	numberCases: 33,
 	categories: [
 		{ name: 'Corner is solved', cases: [1, 2, 3, 4, 5, 6] },
-		{ name: 'Pair in wrong slot', cases: [7, 8, 9] },
-		{ name: 'Flipped edge & corner in adjacent slot', cases: [10, 11, 12, 13, 14, 15] },
+		{ name: 'Pair in wrong slot', cases: [7, 8, 9, 18] },
+		{ name: 'Both pieces in wrong slot / Edge oriented', cases: [19, 21, 22, 24, 26, 29, 31, 33] },
+		{
+			name: 'Both pieces in wrong slot / Edge unoriented',
+			cases: [20, 23, 25, 27, 28, 30, 32]
+		},
+		{ name: 'Edge flipped / Corner in Adjacent Slot', cases: [10, 11, 12, 13, 14, 15] },
 		{ name: 'Other easy cases', cases: [16, 17] }
 	],
 	piecesToHide: {
@@ -355,10 +360,29 @@ const EXPERT_DEFINITION: GroupDefinition = {
 		14: 'fl',
 		15: 'br',
 		16: 'fl',
-		17: 'br'
+		17: 'br',
+		18: 'fr',
+		19: 'fr',
+		20: 'fr',
+		21: 'fr',
+		22: 'fr',
+		23: 'fr',
+		24: 'fr',
+		25: 'fr',
+		26: 'fr',
+		27: 'fr',
+		28: 'fr',
+		29: 'fr',
+		30: 'fr',
+		31: 'fr',
+		32: 'fr',
+		33: 'fr'
 	},
 	// fr: front-right, fl: front-left, br: back-right, bl: back-left
-	ignoreAUF: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+	ignoreAUF: [
+		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+		27, 28, 29, 30, 31, 32, 33
+	],
 	edgeState: {
 		1: { slot: 'fr', oriented: true },
 		2: { slot: 'fr', oriented: false },
@@ -376,7 +400,23 @@ const EXPERT_DEFINITION: GroupDefinition = {
 		14: { slot: 'fr', oriented: false },
 		15: { slot: 'fr', oriented: false },
 		16: { slot: 'fr', oriented: false },
-		17: { slot: 'fr', oriented: false }
+		17: { slot: 'fr', oriented: false },
+		18: { slot: 'br', oriented: false },
+		19: { slot: 'br', oriented: true },
+		20: { slot: 'bl', oriented: false },
+		21: { slot: 'fl', oriented: true },
+		22: { slot: 'br', oriented: true },
+		23: { slot: 'bl', oriented: false },
+		24: { slot: 'fl', oriented: true },
+		25: { slot: 'br', oriented: false },
+		26: { slot: 'bl', oriented: true },
+		27: { slot: 'fl', oriented: false },
+		28: { slot: 'br', oriented: false },
+		29: { slot: 'bl', oriented: true },
+		30: { slot: 'fl', oriented: false },
+		31: { slot: 'br', oriented: true },
+		32: { slot: 'bl', oriented: false },
+		33: { slot: 'fl', oriented: true }
 	}
 } as const;
 

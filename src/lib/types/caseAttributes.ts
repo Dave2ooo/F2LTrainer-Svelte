@@ -992,6 +992,108 @@ export const CASE_ATTRIBUTES: Partial<Record<GroupId, Record<CaseId, CaseAttribu
 			edgePosition: 'wrong_slot',
 			edgeOrientation: 'oriented'
 		},
+		18: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'up_down',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+
+		// Both pieces in wrong slot / Edge oriented
+		// 19, 21, 22, 24, 26, 29, 31, 33
+		19: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		21: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		22: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		24: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		26: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		29: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		31: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'up_down',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+		33: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'up_down',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'oriented'
+		},
+
+		// Both pieces in wrong slot / Edge unoriented
+		// cases: [20, 23, 25, 27, 28, 30, 32]
+		20: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		23: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		25: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		27: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'front_back',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		28: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		30: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'side',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
+		32: {
+			cornerPosition: 'bottom_wrong',
+			cornerOrientation: 'up_down',
+			edgePosition: 'wrong_slot',
+			edgeOrientation: 'unoriented'
+		},
 
 		// Flipped edge & Corner in Adjacent Slot
 		10: {
