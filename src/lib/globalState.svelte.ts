@@ -69,10 +69,24 @@ const defaultEphemeralState: EphemeralState = {
 const persistedEphemeralState =
 	loadFromLocalStorage<Partial<EphemeralState>>(GLOBAL_STATE_STORAGE_KEY);
 
+// Merge categoriesOpenedObj to handle new categories being added
+const mergedCategoriesOpenedObj = { ...defaultEphemeralState.categoriesOpenedObj };
+if (persistedEphemeralState?.categoriesOpenedObj) {
+	for (const groupId of GROUP_IDS) {
+		if (persistedEphemeralState.categoriesOpenedObj[groupId]) {
+			mergedCategoriesOpenedObj[groupId] = mergedCategoriesOpenedObj[groupId].map((defVal, idx) => {
+				const persistedVal = persistedEphemeralState.categoriesOpenedObj![groupId][idx];
+				return persistedVal !== undefined ? persistedVal : defVal;
+			});
+		}
+	}
+}
+
 // Initialize ephemeral state
 const ephemeralState = $state<EphemeralState>({
 	...defaultEphemeralState,
 	...(persistedEphemeralState || {}),
+	categoriesOpenedObj: mergedCategoriesOpenedObj,
 	selectedGroup:
 		(persistedEphemeralState?.selectedGroup as string) === 'filter'
 			? 'basic'
