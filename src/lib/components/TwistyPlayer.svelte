@@ -190,9 +190,17 @@
 			setTimeout(() => {
 				const player = el as any;
 				if (player) {
+					jumpToStart();
 					resetView();
 					// Recolor after reset completes to ensure scene is stable
 					applyEOColorIfNeeded();
+
+					// Re-attach click handlers in case jumpToStart or prop changes recreated the internal DOM
+					if (onclick) {
+						if (cleanupClickHandlers) cleanupClickHandlers();
+						const { cleanup } = setupTwistyPlayerClickHandlers(player, onclick);
+						cleanupClickHandlers = cleanup;
+					}
 				}
 			}, 50);
 		}
