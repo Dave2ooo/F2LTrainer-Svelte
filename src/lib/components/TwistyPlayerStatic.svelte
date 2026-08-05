@@ -12,7 +12,7 @@
 	import type { Auf } from '$lib/types/trainCase';
 	import { concatinateAuf } from '$lib/utils/addAuf';
 	import { simplifyAlg } from '$lib/utils/simplifyAlg';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import type { HintStickering } from '$lib/types/globalState';
 	import { globalState } from '$lib/globalState.svelte';
 
@@ -92,13 +92,30 @@
 			: undefined
 	);
 
+	let el: HTMLElement;
+
 	onMount(async () => {
 		await import('cubing/twisty');
+	});
+
+	onDestroy(() => {
+		if (el) {
+			const player = el as any;
+			if (player._customMysteryMaterial) {
+				player._customMysteryMaterial.dispose();
+				player._customMysteryMaterial = null;
+			}
+			if (player._activeRecolorFrameId !== undefined && player._activeRecolorFrameId !== null) {
+				cancelAnimationFrame(player._activeRecolorFrameId);
+				player._activeRecolorFrameId = null;
+			}
+		}
 	});
 </script>
 
 <div class={wrapperClass}>
 	<twisty-player
+		bind:this={el}
 		style:width="100%"
 		style:height="100%"
 		puzzle="3x3x3"

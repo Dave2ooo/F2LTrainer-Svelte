@@ -407,21 +407,39 @@
 					} catch (e) {
 						// ignore if twisty scene not initialized
 					}
+					animationFrameId = requestAnimationFrame(animateOrientation);
 				} else {
 					gyroBasis = null;
 					// reset orientation smoothly back to normal
+					let needsMoreSlerp = false;
 					try {
 						const puzzleObject = await player.experimentalCurrentThreeJSPuzzleObject();
-						if (puzzleObject && puzzleObject.quaternion.angleTo(new THREE.Quaternion()) > 0.01) {
-							puzzleObject.quaternion.slerp(new THREE.Quaternion(), 0.1);
+						if (puzzleObject && puzzleObject.quaternion.angleTo(HOME_ORIENTATION) > 0.01) {
+							puzzleObject.quaternion.slerp(HOME_ORIENTATION, 0.1);
+							const vantages = await player.experimentalCurrentVantages();
+							const vantage = [...vantages][0] as any;
+							if (vantage?.render) vantage.render();
+							needsMoreSlerp = true;
+						} else if (puzzleObject && puzzleObject.quaternion.angleTo(HOME_ORIENTATION) > 0) {
+							// Snap to exactly 0 to avoid tiny floating point errors keeping it alive forever
+							puzzleObject.quaternion.copy(HOME_ORIENTATION);
 							const vantages = await player.experimentalCurrentVantages();
 							const vantage = [...vantages][0] as any;
 							if (vantage?.render) vantage.render();
 						}
 					} catch (e) {}
+
+					// Throttle when idle to drastically reduce GC pressure and memory usage
+					if (needsMoreSlerp) {
+						animationFrameId = requestAnimationFrame(animateOrientation);
+					} else {
+						// Poll much slower when idle
+						setTimeout(() => {
+							if (el) animationFrameId = requestAnimationFrame(animateOrientation);
+						}, 200);
+					}
 				}
 			}
-			animationFrameId = requestAnimationFrame(animateOrientation);
 		};
 
 		animationFrameId = requestAnimationFrame(animateOrientation);
@@ -508,6 +526,18 @@
 
 	// Cleanup event listeners when component is destroyed
 	onDestroy(() => {
+		if (el) {
+			const player = el as any;
+			if (player._customMysteryMaterial) {
+				player._customMysteryMaterial.dispose();
+				player._customMysteryMaterial = null;
+			}
+			if (player._activeRecolorFrameId !== undefined && player._activeRecolorFrameId !== null) {
+				cancelAnimationFrame(player._activeRecolorFrameId);
+				player._activeRecolorFrameId = null;
+			}
+		}
+
 		if (cleanupClickHandlers) {
 			cleanupClickHandlers();
 		}

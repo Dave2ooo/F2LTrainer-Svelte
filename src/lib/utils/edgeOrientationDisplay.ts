@@ -71,8 +71,8 @@ export function getEODisplayColor(
  * "Mystery" sticker meshes to the given hex color.
  *
  * Clones materials on first encounter to avoid mutating cubing.js's
- * shared global materials. Tags cloned materials so subsequent updates
- * can find and recolor them without needing the original Mystery hex.
+ * shared global materials. Reuses the cloned material on subsequent updates
+ * to avoid memory leaks.
  *
  * Retries via requestAnimationFrame since cubing.js rebuilds the 3D meshes
  * asynchronously (especially on case/stickering changes). Cancels previous
@@ -81,7 +81,6 @@ export function getEODisplayColor(
  * Uses more retries initially if no material is found, since a fresh case
  * load can take longer for the scene to rebuild.
  */
-let activeRecolorFrameId: number | null = null;
 
 export async function recolorMysteryEdge(
 	playerElement: HTMLElement,
@@ -91,9 +90,9 @@ export async function recolorMysteryEdge(
 	if (!player || typeof player.experimentalCurrentVantages !== 'function') return;
 
 	// Cancel any previous animation frame to avoid accumulating loops
-	if (activeRecolorFrameId !== null) {
-		cancelAnimationFrame(activeRecolorFrameId);
-		activeRecolorFrameId = null;
+	if (player._activeRecolorFrameId !== undefined && player._activeRecolorFrameId !== null) {
+		cancelAnimationFrame(player._activeRecolorFrameId);
+		player._activeRecolorFrameId = null;
 	}
 
 	let retryCount = 0;
@@ -106,6 +105,14 @@ export async function recolorMysteryEdge(
 			const vantages = await player.experimentalCurrentVantages();
 			let foundAny = false;
 
+			// Ensure custom material has the right color if it already exists
+			if (player._customMysteryMaterial) {
+				if (player._customMysteryMaterial.color.getHex() !== colorHex) {
+					player._customMysteryMaterial.color.setHex(colorHex);
+					player._customMysteryMaterial.needsUpdate = true;
+				}
+			}
+
 			for (const vantage of vantages) {
 				if (!vantage.scene) continue;
 				const scene = await vantage.scene.scene();
@@ -114,22 +121,28 @@ export async function recolorMysteryEdge(
 				scene.traverse((child: any) => {
 					if (child.isMesh && child.material && child.material.color) {
 						if (child.material.color.getHex() === MYSTERY_COLOR_HEX) {
-							// We MUST clone the material! Otherwise, we mutate the global shared material
-							child.material = child.material.clone();
-							child.material.color.setHex(colorHex);
-							child.material.needsUpdate = true;
+							if (!player._customMysteryMaterial) {
+								player._customMysteryMaterial = child.material.clone();
+								player._customMysteryMaterial.color.setHex(colorHex);
+								if (!player._customMysteryMaterial.userData)
+									player._customMysteryMaterial.userData = {};
+								player._customMysteryMaterial.userData.isEOMysteryMaterial = true;
+							}
 
-							// Tag the material so we can update it again later if the user changes settings
-							if (!child.material.userData) child.material.userData = {};
-							child.material.userData.isEOMysteryMaterial = true;
+							child.material = player._customMysteryMaterial;
 
 							modified = true;
 							foundAny = true;
 							foundEverything = true;
-						} else if (child.material.userData?.isEOMysteryMaterial) {
-							// Already our custom material — just update its color
-							child.material.color.setHex(colorHex);
-							child.material.needsUpdate = true;
+						} else if (
+							child.material === player._customMysteryMaterial ||
+							child.material.userData?.isEOMysteryMaterial
+						) {
+							if (child.material !== player._customMysteryMaterial) {
+								// Clean up any leaked custom material from previous rebuilds
+								child.material.dispose();
+								child.material = player._customMysteryMaterial;
+							}
 							modified = true;
 							foundAny = true;
 						}
@@ -169,13 +182,13 @@ export async function recolorMysteryEdge(
 			// 1. We've had 2 consecutive passes with no new materials (everything is stable)
 			// 2. We hit max retries
 			if (consecutiveNothingFound >= 2 || retryCount >= maxRetries) {
-				activeRecolorFrameId = null;
+				player._activeRecolorFrameId = null;
 				resolve();
 				return;
 			}
 
 			// Schedule next retry
-			activeRecolorFrameId = requestAnimationFrame(loop);
+			player._activeRecolorFrameId = requestAnimationFrame(loop);
 		};
 
 		void loop();
