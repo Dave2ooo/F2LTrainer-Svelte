@@ -63,15 +63,6 @@
 </Tabs>
 
 <style>
-	:global(.wrap-tabs > li) {
-		flex: 1 1 0%;
-		min-width: min-content;
-	}
-	:global(.wrap-tabs > li > button) {
-		width: 100%;
-		justify-content: center;
-		text-align: center;
-	}
 	.tab-text-container {
 		display: flex;
 		flex-direction: row;
@@ -80,6 +71,15 @@
 		justify-content: center;
 	}
 	@media (max-width: 550px) {
+		:global(.wrap-tabs > li) {
+			flex: 1 1 0%;
+			min-width: min-content;
+		}
+		:global(.wrap-tabs > li > button) {
+			width: 100%;
+			justify-content: center;
+			text-align: center;
+		}
 		.tab-text-container {
 			flex-direction: column;
 			gap: 0;
